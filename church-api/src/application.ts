@@ -1,13 +1,15 @@
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
-import {
-  RestExplorerBindings,
-  RestExplorerComponent,
-} from '@loopback/rest-explorer';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
+import {
+  RestExplorerBindings,
+  RestExplorerComponent
+} from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
+import multer from 'multer';
 import path from 'path';
+import {FILE_UPLOAD_SERVICE, STORAGE_DIRECTORY} from './keys';
 import {MySequence} from './sequence';
 
 export {ApplicationConfig};
@@ -40,5 +42,25 @@ export class ChurchApiApplication extends BootMixin(
         nested: true,
       },
     };
+  }
+
+  /**
+   * Configure `multer` options for file upload
+   */
+  protected configureFileUpload(destination?: string) {
+    console.log(path.join(__dirname, './uploads'));
+    destination = destination ?? path.join(__dirname, './uploads');
+    this.bind(STORAGE_DIRECTORY).to(destination);
+    const multerOptions: multer.Options = {
+      storage: multer.diskStorage({
+        destination,
+        // Use the original file name as is
+        filename: (req, file, cb) => {
+          cb(null, file.originalname);
+        },
+      }),
+    };
+    // Configure the file upload service with multer options
+    this.configure(FILE_UPLOAD_SERVICE).to(multerOptions);
   }
 }
