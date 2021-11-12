@@ -4,18 +4,12 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {ChurchModel} from '../models';
 import {ChurchModelRepository} from '../repositories';
@@ -23,8 +17,8 @@ import {ChurchModelRepository} from '../repositories';
 export class ChurchController {
   constructor(
     @repository(ChurchModelRepository)
-    public churchModelRepository : ChurchModelRepository,
-  ) {}
+    public churchModelRepository: ChurchModelRepository,
+  ) { }
 
   @post('/church')
   @response(200, {
@@ -147,4 +141,24 @@ export class ChurchController {
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.churchModelRepository.deleteById(id);
   }
+
+  @get('/selectchurch')
+  @response(200, {
+    description: 'Array of ChurchModel model instances for select',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: getModelSchemaRef(ChurchModel, {includeRelations: true}),
+        },
+      },
+    },
+  })
+  async selectchurch(
+    @param.filter(ChurchModel) filter?: Filter<ChurchModel>,
+  ): Promise<ChurchModel[]> {
+    return this.churchModelRepository.find(filter);
+  }
+
+
 }

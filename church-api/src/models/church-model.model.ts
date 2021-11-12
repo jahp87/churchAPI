@@ -25,14 +25,16 @@ export class ChurchModel extends Entity {
   })
   logo: string;
 
-  @belongsTo(() => CityModel)
+
+
+  @belongsTo(() => CityModel, {name: 'city'})
   cityModelId: string;
 
-  @belongsTo(() => StateModel)
-  stateModelId: string;
-
-  @belongsTo(() => CountryModel)
+  @belongsTo(() => CountryModel, {name: 'country'})
   countryModelId: string;
+
+  @belongsTo(() => StateModel, {name: 'state'})
+  stateModelId: string;
 
   constructor(data?: Partial<ChurchModel>) {
     super(data);
