@@ -1,5 +1,9 @@
+import {AuthenticationComponent, registerAuthenticationStrategy} from '@loopback/authentication';
+import {
+  UserServiceBindings
+} from '@loopback/authentication-jwt';
 import {BootMixin} from '@loopback/boot';
-import {ApplicationConfig} from '@loopback/core';
+import {ApplicationConfig, createBindingFromClass} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {
@@ -9,8 +13,11 @@ import {
 import {ServiceMixin} from '@loopback/service-proxy';
 import multer from 'multer';
 import path from 'path';
-import {FILE_UPLOAD_SERVICE, STORAGE_DIRECTORY} from './keys';
+import {JWTAuthenticationStrategy} from './authentication-strategies/jwt-strategy';
+import {MongodbDatasourceDataSource} from './datasources';
+import {FILE_UPLOAD_SERVICE, PasswordHasherBindings, STORAGE_DIRECTORY, TokenServiceBindings, TokenServiceConstants} from './keys';
 import {MySequence} from './sequence';
+import {BcryptHasher, JWTService, MyUserService} from './services';
 
 export {ApplicationConfig};
 
@@ -42,6 +49,36 @@ export class ChurchApiApplication extends BootMixin(
         nested: true,
       },
     };
+    this.setUpBindings();
+
+    this.component(AuthenticationComponent);
+    this.component(AuthenticationComponent);
+    this.add(createBindingFromClass(JWTAuthenticationStrategy));
+    registerAuthenticationStrategy(this, JWTAuthenticationStrategy);
+    // Bind datasource
+    this.dataSource(MongodbDatasourceDataSource, UserServiceBindings.DATASOURCE_NAME);
+  }
+
+  private setUpBindings(): void {
+
+    // Bind package.json to the application context
+    // this.bind(PackageKey).to(pkg);
+
+    this.bind(TokenServiceBindings.TOKEN_SECRET).to(
+      TokenServiceConstants.TOKEN_SECRET_VALUE,
+    );
+
+    this.bind(TokenServiceBindings.TOKEN_EXPIRES_IN).to(
+      TokenServiceConstants.TOKEN_EXPIRES_IN_VALUE,
+    );
+
+    this.bind(TokenServiceBindings.TOKEN_SERVICE).toClass(JWTService);
+
+    // // Bind bcrypt hash services
+    this.bind(PasswordHasherBindings.ROUNDS).to(10);
+    this.bind(PasswordHasherBindings.PASSWORD_HASHER).toClass(BcryptHasher);
+
+    this.bind(UserServiceBindings.USER_SERVICE).toClass(MyUserService);
   }
 
   /**

@@ -1,38 +1,40 @@
-import {Entity, hasOne, model, property} from '@loopback/repository';
+import {Entity, model, property, hasOne} from '@loopback/repository';
 import {UserCredentialsModel} from './user-credentials-model.model';
 
-@model({settings: {strict: false}})
+@model({
+  settings: {
+    indexes: {
+      uniqueEmail: {
+        keys: {
+          email: 1,
+        },
+        options: {
+          unique: true,
+        },
+      },
+    },
+  },
+})
 export class UserModel extends Entity {
   @property({
     type: 'string',
     id: true,
-    generated: true,
+    generated: false,
+    defaultFn: 'uuidv4',
   })
-  id?: string;
-
-  @property({
-    type: 'string',
-  })
-  username?: string;
+  id: string;
 
   @property({
     type: 'string',
     required: true,
-    index: {
-      unique: true,
-    },
   })
   email: string;
 
   @property({
-    type: 'boolean',
-  })
-  emailVerified?: boolean;
-
-  @property({
     type: 'string',
+    nullable: false,
   })
-  verificationToken?: string;
+  role: string;
 
   @hasOne(() => UserCredentialsModel, {keyTo: 'userId'})
   userCredentials: UserCredentialsModel;
@@ -46,4 +48,5 @@ export interface UserModelRelations {
   // describe navigational properties here
 }
 
-export type UserModelWithRelations = UserModel & UserModelRelations;
+
+export type UserModelWithRelations = UserModel & UserModelRelations

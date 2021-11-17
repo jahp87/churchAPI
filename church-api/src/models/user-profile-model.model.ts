@@ -1,8 +1,8 @@
-import {Model, model, property, belongsTo} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {UserModel} from './user-model.model';
 
 @model()
-export class UserProfileModel extends Model {
+export class UserProfileModel extends Entity {
   @property({
     type: 'string',
     id: true,
