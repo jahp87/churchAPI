@@ -10,7 +10,16 @@ import {basicAuthorization} from '../middlewares/auth.midd';
 import {UserModel} from '../models';
 import {Credentials, UserModelRepository} from '../repositories';
 import {PasswordHasher, validateCredentials} from '../services';
-import {UserProfileSchema} from './specs/user-controller.specs';
+
+const UserProfileSchema = {
+  type: 'object',
+  required: ['id'],
+  properties: {
+    id: {type: 'string'},
+    email: {type: 'string'},
+    name: {type: 'string'},
+  },
+};
 
 
 @model()
@@ -93,6 +102,12 @@ export class UserController {
     const password = await this.passwordHasher.hashPassword(
       newUserRequest.password,
     );
+
+    const isUniqueUser = await this.userRepository.findOne({where: {email: newUserRequest.email}});
+
+    if (isUniqueUser !== null) {
+      throw new HttpErrors.BadRequest('Email value is already taken');
+    }
 
     try {
       // create the new user

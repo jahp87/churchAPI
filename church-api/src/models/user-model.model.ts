@@ -1,4 +1,4 @@
-import {Entity, model, property, hasOne} from '@loopback/repository';
+import {Entity, hasOne, model, property} from '@loopback/repository';
 import {UserCredentialsModel} from './user-credentials-model.model';
 
 @model({
@@ -26,7 +26,7 @@ export class UserModel extends Entity {
 
   @property({
     type: 'string',
-    required: true,
+    required: true
   })
   email: string;
 
