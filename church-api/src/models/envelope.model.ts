@@ -1,16 +1,16 @@
-import {Model, model, property} from '@loopback/repository';
+import {Entity, model, property} from '@loopback/repository';
 
 @model()
-export class EnvelopeModel extends Model {
+export class EnvelopeModel extends Entity {
   @property({
     type: 'string',
   })
-  from?: string;
+  from: string;
 
   @property({
     type: 'string',
   })
-  to?: string;
+  to: string;
 
 
   constructor(data?: Partial<EnvelopeModel>) {

@@ -39,6 +39,12 @@ export class UserModel extends Entity {
   @hasOne(() => UserCredentialsModel, {keyTo: 'userId'})
   userCredentials: UserCredentialsModel;
 
+  @property({
+    type: 'string',
+    nullable: false,
+  })
+  resetKey: string;
+
   constructor(data?: Partial<UserModel>) {
     super(data);
   }

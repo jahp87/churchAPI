@@ -1,18 +1,18 @@
-import {Model, model, property} from '@loopback/repository';
+import {Entity, model, property} from '@loopback/repository';
 import {EnvelopeModel} from '.';
 
 @model()
-export class NodeMailerModel extends Model {
-  @property({
+export class NodeMailerModel extends Entity {
+  @property.array({
     type: 'string',
   })
-  accepted?: string;
+  accepted: string[];
 
-  @property({
+  @property.apply({
     type: 'string',
     required: true,
   })
-  rejected: string;
+  rejected: string[];
 
   @property({
     type: 'number',
@@ -34,14 +34,13 @@ export class NodeMailerModel extends Model {
   })
   response?: string;
 
+  @property(() => EnvelopeModel)
+  envelope?: EnvelopeModel;
+
   @property({
     type: 'string',
   })
   messageId?: string;
-
-  @property(() => EnvelopeModel)
-  envelope: EnvelopeModel;
-
 
   constructor(data?: Partial<NodeMailerModel>) {
     super(data);

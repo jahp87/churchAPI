@@ -1,7 +1,7 @@
-import {Model, model, property} from '@loopback/repository';
+import {Entity, model, property} from '@loopback/repository';
 
 @model()
-export class EmailTemplateModel extends Model {
+export class EmailTemplateModel extends Entity {
   @property({
     type: 'string',
     default: 'noreply@churchapp.net',
