@@ -273,10 +273,10 @@ export class UserController {
     return {token};
   }
   // We will add our password reset here
-  @post('/reset-password/init')
+  @post('/users/reset-password/init')
   async resetPasswordInit(
     @requestBody() resetPasswordInit: ResetPasswordInitModel,
-  ): Promise<string> {
+  ): Promise<{email: string}> {
     // checks whether email is valid as per regex pattern provided
     const email = await this.validateEmail(resetPasswordInit.email);
 
@@ -309,7 +309,7 @@ export class UserController {
 
     // Nodemailer has accepted the request. All good
     if (nodeMailer.accepted.length) {
-      return 'An email with password reset instructions has been sent to the provided email';
+      return {email: foundUser.email};
     }
 
     // Nodemailer did not complete the request alert the user
@@ -318,7 +318,7 @@ export class UserController {
     );
   }
 
-  @put('/reset-password/finish')
+  @put('/users/reset-password/finish')
   async resetPasswordFinish(
     @requestBody() keyAndPassword: KeyAndPasswordModel,
   ): Promise<string> {
