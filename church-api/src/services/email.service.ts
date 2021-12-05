@@ -33,7 +33,7 @@ export class EmailService {
           <p> Code ${user.resetKey}</p>
           <p>If you didn’t request to reset your password, please ignore this email or reset your password to protect your account.</p>
           <p>Thanks</p>
-          <p>Church App Team</p>
+          <p>This is Church App Team</p>
       </div>
       `,
     });

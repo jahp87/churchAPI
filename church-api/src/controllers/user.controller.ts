@@ -2,7 +2,7 @@ import {authenticate, TokenService, UserService} from '@loopback/authentication'
 import {authorize} from '@loopback/authorization';
 import {inject} from '@loopback/core';
 import {model, property, repository} from '@loopback/repository';
-import {get, getModelSchemaRef, HttpErrors, param, post, put, requestBody, SchemaObject} from '@loopback/rest';
+import {get, getModelSchemaRef, HttpErrors, param, post, requestBody, SchemaObject} from '@loopback/rest';
 import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
 import _ from 'lodash';
@@ -318,10 +318,10 @@ export class UserController {
     );
   }
 
-  @put('/users/reset-password/finish')
+  @post('/users/reset-password/finish')
   async resetPasswordFinish(
     @requestBody() keyAndPassword: KeyAndPasswordModel,
-  ): Promise<string> {
+  ): Promise<UserModel> {
     // Checks whether password and reset key meet minimum security requirements
     const {resetKey, password} = await this.validateKeyPassword(keyAndPassword);
 
@@ -355,7 +355,7 @@ export class UserController {
       return e;
     }
 
-    return 'Password reset request completed successfully';
+    return foundUser;
   }
 
   async validateKeyPassword(keyAndPassword: KeyAndPasswordModel): Promise<KeyAndPasswordModel> {
