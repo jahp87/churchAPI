@@ -7,7 +7,6 @@ import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
 import _ from 'lodash';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
-import {v4 as uuidv4} from 'uuid';
 import {PasswordHasherBindings, TokenServiceBindings, UserServiceBindings} from '../keys';
 import {basicAuthorization} from '../middlewares/auth.midd';
 import {KeyAndPasswordModel, ResetPasswordInitModel, UserModel} from '../models';
@@ -295,7 +294,7 @@ export class UserController {
     }
 
     // We generate unique reset key to associate with reset request
-    foundUser.resetKey = uuidv4();
+    foundUser.resetKey = Math.floor(1000 + Math.random() * 9000).toString();
 
     try {
       // Updates the user to store their reset key with error handling

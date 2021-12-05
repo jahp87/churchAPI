@@ -29,8 +29,8 @@ export class EmailService {
       <div>
           <p>Hi there,</p>
           <p style="color: red;">We received a request to reset the password for your account</p>
-          <p>To reset your password click on the link provided below</p>
-          <a href="${environment.applicationUrl}/reset-password-finish.html?resetKey=${user.resetKey}">Reset your password link</a>
+          <p>To reset your password push this code in your app</p>
+          <p> Code ${user.resetKey}</p>
           <p>If you didn’t request to reset your password, please ignore this email or reset your password to protect your account.</p>
           <p>Thanks</p>
           <p>Church App Team</p>
