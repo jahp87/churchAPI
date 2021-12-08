@@ -25,6 +25,12 @@ export class ChurchModel extends Entity {
   })
   logo: string;
 
+  @property({
+    type: 'string',
+    required: false,
+  })
+  code: string;
+
 
 
   @belongsTo(() => CityModel, {name: 'city'})

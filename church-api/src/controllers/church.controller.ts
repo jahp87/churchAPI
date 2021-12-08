@@ -1,3 +1,5 @@
+import {authenticate} from '@loopback/authentication';
+import {authorize} from '@loopback/authorization';
 import {
   Count,
   CountSchema,
@@ -11,8 +13,10 @@ import {
   getModelSchemaRef, param, patch, post, put, requestBody,
   response
 } from '@loopback/rest';
+import {basicAuthorization} from '../middlewares/auth.midd';
 import {ChurchModel} from '../models';
 import {ChurchModelRepository} from '../repositories';
+
 
 export class ChurchController {
   constructor(
@@ -24,6 +28,11 @@ export class ChurchController {
   @response(200, {
     description: 'ChurchModel model instance',
     content: {'application/json': {schema: getModelSchemaRef(ChurchModel)}},
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin'],
+    voters: [basicAuthorization],
   })
   async create(
     @requestBody({
@@ -46,6 +55,11 @@ export class ChurchController {
     description: 'ChurchModel model count',
     content: {'application/json': {schema: CountSchema}},
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin'],
+    voters: [basicAuthorization],
+  })
   async count(
     @param.where(ChurchModel) where?: Where<ChurchModel>,
   ): Promise<Count> {
@@ -64,6 +78,11 @@ export class ChurchController {
       },
     },
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin', 'user'],
+    voters: [basicAuthorization],
+  })
   async find(
     @param.filter(ChurchModel) filter?: Filter<ChurchModel>,
   ): Promise<ChurchModel[]> {
@@ -74,6 +93,11 @@ export class ChurchController {
   @response(200, {
     description: 'ChurchModel PATCH success count',
     content: {'application/json': {schema: CountSchema}},
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin'],
+    voters: [basicAuthorization],
   })
   async updateAll(
     @requestBody({
@@ -98,6 +122,11 @@ export class ChurchController {
       },
     },
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin', 'user'],
+    voters: [basicAuthorization],
+  })
   async findById(
     @param.path.string('id') id: string,
     @param.filter(ChurchModel, {exclude: 'where'}) filter?: FilterExcludingWhere<ChurchModel>
@@ -108,6 +137,11 @@ export class ChurchController {
   @patch('/church/{id}')
   @response(204, {
     description: 'ChurchModel PATCH success',
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin'],
+    voters: [basicAuthorization],
   })
   async updateById(
     @param.path.string('id') id: string,
@@ -127,6 +161,11 @@ export class ChurchController {
   @response(204, {
     description: 'ChurchModel PUT success',
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin'],
+    voters: [basicAuthorization],
+  })
   async replaceById(
     @param.path.string('id') id: string,
     @requestBody() churchModel: ChurchModel,
@@ -137,6 +176,11 @@ export class ChurchController {
   @del('/church/{id}')
   @response(204, {
     description: 'ChurchModel DELETE success',
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin'],
+    voters: [basicAuthorization],
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.churchModelRepository.deleteById(id);
@@ -153,6 +197,11 @@ export class ChurchController {
         },
       },
     },
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin'],
+    voters: [basicAuthorization],
   })
   async selectchurch(
     @param.filter(ChurchModel) filter?: Filter<ChurchModel>,
