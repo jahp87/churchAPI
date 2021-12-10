@@ -186,7 +186,7 @@ export class ChurchController {
     await this.churchModelRepository.deleteById(id);
   }
 
-  @get('/selectchurch')
+  @get('/church/selectchurch')
   @response(200, {
     description: 'Array of ChurchModel model instances for select',
     content: {
@@ -204,9 +204,17 @@ export class ChurchController {
     voters: [basicAuthorization],
   })
   async selectchurch(
-    @param.filter(ChurchModel) filter?: Filter<ChurchModel>,
+
   ): Promise<ChurchModel[]> {
-    return this.churchModelRepository.find(filter);
+    return this.churchModelRepository.find(
+      {
+        include: [
+          {relation: 'city'},
+          {relation: 'country'},
+          {relation: 'state'}
+        ]
+      },
+    );
   }
 
 

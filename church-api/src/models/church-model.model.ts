@@ -32,7 +32,6 @@ export class ChurchModel extends Entity {
   code: string;
 
 
-
   @belongsTo(() => CityModel, {name: 'city'})
   cityModelId: string;
 
