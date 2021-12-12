@@ -30,7 +30,7 @@ export class ChurchModelRepository extends DefaultCrudRepository<
     this.registerInclusionResolver('city', this.city.inclusionResolver);
   }
 
-  async selectchurch() {
+  async selectChurch() {
     return this.find(
       {
         include: [
@@ -40,5 +40,24 @@ export class ChurchModelRepository extends DefaultCrudRepository<
         ]
       },
     );
+  }
+
+  async getChurchByCode(code: string) {
+    return this.findOne({
+      where: {
+        code: code
+      },
+      include: [
+        {relation: 'city'},
+        {relation: 'country'},
+        {relation: 'state'}
+      ],
+      fields: {
+        id: true,
+        name: true,
+        logo: true,
+        code: true
+      }
+    });
   }
 }

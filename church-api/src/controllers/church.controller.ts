@@ -203,11 +203,36 @@ export class ChurchController {
     allowedRoles: ['admin'],
     voters: [basicAuthorization],
   })
-  async selectchurch(
+  async selectChurch(
 
   ): Promise<ChurchModel[]> {
-    return this.churchModelRepository.selectchurch();
+    return this.churchModelRepository.selectChurch();
+  }
+
+
+  @get('/church/getchurchdata')
+  @response(200, {
+    description: 'ChurchModel model instance',
+    parameters: [{code: 'code', schema: {type: 'string'}, in: 'query'}],
+    content: {
+      'application/json': {
+        schema: getModelSchemaRef(ChurchModel, {includeRelations: true}),
+      },
+    },
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin', 'user'],
+    voters: [basicAuthorization],
+  })
+  async getChurchData(
+    @param.query.string('code') code: string
+  ): Promise<ChurchModel | null> {
+
+    return this.churchModelRepository.getChurchByCode(code);
   }
 
 
 }
+
+
