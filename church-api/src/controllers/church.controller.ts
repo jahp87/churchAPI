@@ -10,7 +10,7 @@ import {
 } from '@loopback/repository';
 import {
   del, get,
-  getModelSchemaRef, param, patch, post, put, requestBody,
+  getModelSchemaRef, HttpErrors, param, patch, post, put, requestBody,
   response
 } from '@loopback/rest';
 import {basicAuthorization} from '../middlewares/auth.midd';
@@ -229,7 +229,12 @@ export class ChurchController {
     @param.query.string('code') code: string
   ): Promise<ChurchModel | null> {
 
-    return this.churchModelRepository.getChurchByCode(code);
+    const result = await this.churchModelRepository.getChurchByCode(code);
+    if (result === null) {
+      return Promise.reject(new HttpErrors.NotFound('Church not found'));
+    }
+    else
+      return result;
   }
 
 
