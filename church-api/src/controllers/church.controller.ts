@@ -206,15 +206,7 @@ export class ChurchController {
   async selectchurch(
 
   ): Promise<ChurchModel[]> {
-    return this.churchModelRepository.find(
-      {
-        include: [
-          {relation: 'city'},
-          {relation: 'country'},
-          {relation: 'state'}
-        ]
-      },
-    );
+    return this.churchModelRepository.selectchurch();
   }
 
 

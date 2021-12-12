@@ -1,5 +1,5 @@
-import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, BelongsToAccessor} from '@loopback/repository';
+import {Getter, inject} from '@loopback/core';
+import {BelongsToAccessor, DefaultCrudRepository, repository} from '@loopback/repository';
 import {MongodbDatasourceDataSource} from '../datasources';
 import {ChurchModel, ChurchModelRelations, CityModel, CountryModel, StateModel} from '../models';
 import {CityModelRepository} from './city-model.repository';
@@ -28,5 +28,17 @@ export class ChurchModelRepository extends DefaultCrudRepository<
     this.registerInclusionResolver('country', this.country.inclusionResolver);
     this.city = this.createBelongsToAccessorFor('city', cityModelRepositoryGetter,);
     this.registerInclusionResolver('city', this.city.inclusionResolver);
+  }
+
+  async selectchurch() {
+    return this.find(
+      {
+        include: [
+          {relation: 'city'},
+          {relation: 'country'},
+          {relation: 'state'}
+        ]
+      },
+    );
   }
 }
