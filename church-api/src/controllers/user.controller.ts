@@ -9,8 +9,8 @@ import _ from 'lodash';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import {PasswordHasherBindings, TokenServiceBindings, UserServiceBindings} from '../keys';
 import {basicAuthorization} from '../middlewares/auth.midd';
-import {KeyAndPasswordModel, ResetPasswordInitModel, UserModel} from '../models';
-import {Credentials, UserModelRepository} from '../repositories';
+import {KeyAndPasswordModel, ResetPasswordInitModel, UserModel, UserProfileModel} from '../models';
+import {Credentials, UserModelRepository, UserProfileModelRepository} from '../repositories';
 import {EmailService, PasswordHasher, validateCredentials} from '../services';
 
 const UserProfileSchema = {
@@ -59,6 +59,7 @@ export const CredentialsRequestBody = {
 export class UserController {
   constructor(
     @repository(UserModelRepository) public userRepository: UserModelRepository,
+    @repository(UserProfileModelRepository) public userProfileRepository: UserProfileModelRepository,
     @inject(PasswordHasherBindings.PASSWORD_HASHER)
     public passwordHasher: PasswordHasher,
     @inject(TokenServiceBindings.TOKEN_SERVICE)
@@ -389,4 +390,66 @@ export class UserController {
     }
     return email;
   }
+
+  @get('/users/getprofile', {
+    responses: {
+      '200': {
+        description: 'UserProfileModel',
+        content: {
+          'application/json': {
+            schema: {
+              'x-ts-type': UserProfileModel,
+            },
+          },
+        },
+      },
+    },
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['user'],
+    voters: [basicAuthorization],
+  })
+  async getProfile(@param.query.string('email') email: string
+  ): Promise<UserProfileModel | null> {
+
+    const foundUser = await this.userRepository.findOne({
+      where: {
+        email: email
+      }
+    });
+
+    // No user account found
+    if (foundUser === null) {
+      return Promise.reject(new HttpErrors.NotFound('User not found'));
+    }
+    else {
+      const userProfile = await this.userProfileRepository.findOne({
+        where: {
+          userId: foundUser.id
+        }
+      });
+
+      if (userProfile === null) {
+        const userProfileSchema = {
+
+          firstname: '-',
+          lastname: '-',
+          userId: foundUser.id
+
+        }
+        return this.userProfileRepository.create(userProfileSchema);
+
+      }
+      else {
+        return userProfile;
+      }
+
+
+    }
+
+
+
+  }
+
 }
