@@ -10,7 +10,7 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import {PasswordHasherBindings, TokenServiceBindings, UserServiceBindings} from '../keys';
 import {basicAuthorization} from '../middlewares/auth.midd';
 import {KeyAndPasswordModel, ResetPasswordInitModel, UserModel, UserProfileModel} from '../models';
-import {Credentials, UserModelRepository, UserProfileModelRepository} from '../repositories';
+import {ChurchModelRepository, Credentials, UserModelRepository, UserProfileModelRepository} from '../repositories';
 import {EmailService, PasswordHasher, validateCredentials} from '../services';
 
 const UserProfileSchema = {
@@ -60,6 +60,7 @@ export class UserController {
   constructor(
     @repository(UserModelRepository) public userRepository: UserModelRepository,
     @repository(UserProfileModelRepository) public userProfileRepository: UserProfileModelRepository,
+    @repository(ChurchModelRepository) public churchModelRepository: ChurchModelRepository,
     @inject(PasswordHasherBindings.PASSWORD_HASHER)
     public passwordHasher: PasswordHasher,
     @inject(TokenServiceBindings.TOKEN_SERVICE)
@@ -410,7 +411,9 @@ export class UserController {
     allowedRoles: ['user'],
     voters: [basicAuthorization],
   })
-  async getProfile(@param.query.string('email') email: string
+  async getProfile(
+    @param.query.string('email') email: string,
+    @param.query.string('churchId') churchId: string
   ): Promise<UserProfileModel | null> {
 
     const foundUser = await this.userRepository.findOne({
@@ -429,16 +432,22 @@ export class UserController {
           userId: foundUser.id
         },
         include: [
-          {relation: 'user'}
+          {relation: 'user'},
+          {relation: 'church'}
         ]
       });
-
+      const activeChurch = await this.churchModelRepository.findById(churchId);
       if (userProfile === null) {
+
+        if (activeChurch === null) {
+          return Promise.reject(new HttpErrors.NotFound('Church not found'));
+        }
         const userProfileSchema = {
 
           firstname: '-',
           lastname: '-',
-          userId: foundUser.id
+          userId: foundUser.id,
+          churchId: activeChurch.id
 
         }
         const createdUser = await this.userProfileRepository.create(userProfileSchema);
@@ -447,14 +456,32 @@ export class UserController {
             userId: createdUser.userId
           },
           include: [
-            {relation: 'user'}
+            {relation: 'user'},
+            {relation: 'church'}
           ]
         });
         return userProfile;
 
       }
       else {
-        return userProfile;
+        const userProfileSchema = {
+
+          firstname: userProfile.firstname,
+          lastname: userProfile.firstname,
+          userId: foundUser.id,
+          churchId: activeChurch.id
+
+        }
+        await this.userProfileRepository.updateAll(userProfileSchema);
+        return this.userProfileRepository.findOne({
+          where: {
+            userId: foundUser.id
+          },
+          include: [
+            {relation: 'user'},
+            {relation: 'church'}
+          ]
+        });
       }
 
 
