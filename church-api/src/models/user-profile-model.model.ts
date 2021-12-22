@@ -1,5 +1,6 @@
-import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {Entity, model, property, belongsTo, hasOne} from '@loopback/repository';
 import {UserModel} from './user-model.model';
+import {ChurchModel} from './church-model.model';
 
 @model()
 export class UserProfileModel extends Entity {
@@ -22,6 +23,9 @@ export class UserProfileModel extends Entity {
 
   @belongsTo(() => UserModel)
   userId: string;
+
+  @hasOne(() => ChurchModel, {keyTo: 'profileId'})
+  activeChurch: ChurchModel;
 
   constructor(data?: Partial<UserProfileModel>) {
     super(data);

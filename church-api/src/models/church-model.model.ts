@@ -41,6 +41,11 @@ export class ChurchModel extends Entity {
   @belongsTo(() => StateModel, {name: 'state'})
   stateModelId: string;
 
+  @property({
+    type: 'string',
+  })
+  profileId?: string;
+
   constructor(data?: Partial<ChurchModel>) {
     super(data);
   }

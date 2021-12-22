@@ -424,10 +424,13 @@ export class UserController {
       return Promise.reject(new HttpErrors.NotFound('User not found'));
     }
     else {
-      const userProfile = await this.userProfileRepository.findOne({
+      let userProfile = await this.userProfileRepository.findOne({
         where: {
           userId: foundUser.id
-        }
+        },
+        include: [
+          {relation: 'user'}
+        ]
       });
 
       if (userProfile === null) {
@@ -438,7 +441,16 @@ export class UserController {
           userId: foundUser.id
 
         }
-        return this.userProfileRepository.create(userProfileSchema);
+        const createdUser = await this.userProfileRepository.create(userProfileSchema);
+        userProfile = await this.userProfileRepository.findOne({
+          where: {
+            userId: createdUser.userId
+          },
+          include: [
+            {relation: 'user'}
+          ]
+        });
+        return userProfile;
 
       }
       else {
