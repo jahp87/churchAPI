@@ -442,7 +442,7 @@ export class UserController {
         if (activeChurch === null) {
           return Promise.reject(new HttpErrors.NotFound('Church not found'));
         }
-        const userProfileSchema = {
+        const userNewProfileSchema = {
 
           firstname: '-',
           lastname: '-',
@@ -450,7 +450,7 @@ export class UserController {
           churchId: activeChurch.id
 
         }
-        const createdUser = await this.userProfileRepository.create(userProfileSchema);
+        const createdUser = await this.userProfileRepository.create(userNewProfileSchema);
         userProfile = await this.userProfileRepository.findOne({
           where: {
             userId: createdUser.userId
@@ -467,7 +467,7 @@ export class UserController {
         const userProfileSchema = {
 
           firstname: userProfile.firstname,
-          lastname: userProfile.firstname,
+          lastname: userProfile.lastname,
           userId: foundUser.id,
           churchId: activeChurch.id
 
