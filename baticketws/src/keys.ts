@@ -3,6 +3,13 @@ import {BindingKey} from '@loopback/context';
 import {User} from './models';
 import {Credentials} from './repositories';
 import {PasswordHasher} from './services';
+import {FileUploadHandler} from './types'; // Binding key for the file upload service
+
+
+export const FILE_UPLOAD_SERVICE =
+  BindingKey.create<FileUploadHandler>('services.FileUpload',);// Binding key for the storage directory
+export const STORAGE_DIRECTORY = BindingKey.create<string>
+  ('storage.directory');
 
 export namespace TokenServiceConstants {
   export const TOKEN_SECRET_VALUE = 'b4t1ck3t3r4';
