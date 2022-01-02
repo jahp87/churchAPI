@@ -1,7 +1,7 @@
 import {authenticate, TokenService, UserService} from '@loopback/authentication';
 import {authorize} from '@loopback/authorization';
 import {inject} from '@loopback/core';
-import {model, property, repository} from '@loopback/repository';
+import {Entity, model, property, repository} from '@loopback/repository';
 import {get, getModelSchemaRef, HttpErrors, param, post, requestBody, SchemaObject} from '@loopback/rest';
 import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
@@ -47,6 +47,28 @@ const CredentialsSchema: SchemaObject = {
     },
   },
 };
+@model()
+export class ChangePasswordRequest extends Entity {
+  @property({
+    type: 'string',
+    required: true,
+  })
+  password: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  confirm: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  email: string;
+}
+
+
 
 export const CredentialsRequestBody = {
   description: 'The input of login function',
@@ -489,6 +511,90 @@ export class UserController {
 
 
 
+  }
+
+  @post('/users/changepassword', {
+    responses: {
+      '200': {
+        description: 'Token',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                token: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['user'],
+    voters: [basicAuthorization],
+  })
+  async changePassword(
+    @requestBody() changePasswordRequest: ChangePasswordRequest,
+  ): Promise<UserModel> {
+    // Checks whether password and reset key meet minimum security requirements
+    const {email, password} = await this.validateChangePasswordSchema(changePasswordRequest);
+
+    // Search for a user using reset key
+    const foundUser = await this.userRepository.findOne({
+      where: {email: email},
+    });
+
+    // No user account found
+    if (!foundUser) {
+      throw new HttpErrors.NotFound(
+        'No associated account for the provided email',
+      );
+    }
+
+    // encrypt the password
+    const passwordHash = await this.passwordHasher.hashPassword(
+      password
+    );
+
+    console.log(passwordHash);
+
+    try {
+      // Update user password with the newly provided password
+      await this.userRepository
+        .userCredentials(foundUser.id)
+        .patch({password: passwordHash});
+
+    } catch (e) {
+      return e;
+    }
+
+    return foundUser;
+
+  }
+
+  async validateChangePasswordSchema(changePasswordRequest: ChangePasswordRequest): Promise<{email: string, password: string}> {
+    if (!changePasswordRequest.password || changePasswordRequest.password.length < 8) {
+      throw new HttpErrors.UnprocessableEntity(
+        'Password must be minimum of 8 characters',
+      );
+    }
+
+    if (changePasswordRequest.password !== changePasswordRequest.confirm) {
+      throw new HttpErrors.UnprocessableEntity(
+        'Password and confirmation password do not match',
+      );
+    }
+
+    const emailRegPattern = /\S+@\S+\.\S+/;
+    if (!emailRegPattern.test(changePasswordRequest.email)) {
+      throw new HttpErrors.UnprocessableEntity('Invalid email address');
+    }
+
+    return {email: changePasswordRequest.email, password: changePasswordRequest.email};
   }
 
 }
