@@ -11,3 +11,4 @@ export * from './email-template.model';
 export * from './envelope.model';
 export * from './reset-password-init.model';
 export * from './node-mailer.model';
+export * from './prayer.model';

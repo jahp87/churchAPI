@@ -7,3 +7,4 @@ export * from './user-model.repository';
 export * from './user-profile-model.repository';
 
 
+export * from './prayer.repository';

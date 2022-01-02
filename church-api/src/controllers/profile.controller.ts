@@ -1,35 +1,37 @@
+import {authenticate} from '@loopback/authentication';
+import {authorize} from '@loopback/authorization';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
+import {basicAuthorization} from '../middlewares/auth.midd';
 import {UserProfileModel} from '../models';
 import {UserProfileModelRepository} from '../repositories';
 
 export class ProfileController {
   constructor(
     @repository(UserProfileModelRepository)
-    public userProfileModelRepository : UserProfileModelRepository,
-  ) {}
+    public userProfileModelRepository: UserProfileModelRepository,
+  ) { }
 
   @post('/profile')
   @response(200, {
     description: 'UserProfileModel model instance',
     content: {'application/json': {schema: getModelSchemaRef(UserProfileModel)}},
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin', 'user'],
+    voters: [basicAuthorization],
   })
   async create(
     @requestBody({
@@ -52,6 +54,11 @@ export class ProfileController {
     description: 'UserProfileModel model count',
     content: {'application/json': {schema: CountSchema}},
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin'],
+    voters: [basicAuthorization],
+  })
   async count(
     @param.where(UserProfileModel) where?: Where<UserProfileModel>,
   ): Promise<Count> {
@@ -70,6 +77,11 @@ export class ProfileController {
       },
     },
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin'],
+    voters: [basicAuthorization],
+  })
   async find(
     @param.filter(UserProfileModel) filter?: Filter<UserProfileModel>,
   ): Promise<UserProfileModel[]> {
@@ -80,6 +92,11 @@ export class ProfileController {
   @response(200, {
     description: 'UserProfileModel PATCH success count',
     content: {'application/json': {schema: CountSchema}},
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin', 'user'],
+    voters: [basicAuthorization],
   })
   async updateAll(
     @requestBody({
@@ -104,6 +121,11 @@ export class ProfileController {
       },
     },
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin', 'user'],
+    voters: [basicAuthorization],
+  })
   async findById(
     @param.path.string('id') id: string,
     @param.filter(UserProfileModel, {exclude: 'where'}) filter?: FilterExcludingWhere<UserProfileModel>
@@ -114,6 +136,11 @@ export class ProfileController {
   @patch('/profile/{id}')
   @response(204, {
     description: 'UserProfileModel PATCH success',
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin', 'user'],
+    voters: [basicAuthorization],
   })
   async updateById(
     @param.path.string('id') id: string,
@@ -133,6 +160,11 @@ export class ProfileController {
   @response(204, {
     description: 'UserProfileModel PUT success',
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin'],
+    voters: [basicAuthorization],
+  })
   async replaceById(
     @param.path.string('id') id: string,
     @requestBody() userProfileModel: UserProfileModel,
@@ -143,6 +175,11 @@ export class ProfileController {
   @del('/profile/{id}')
   @response(204, {
     description: 'UserProfileModel DELETE success',
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin'],
+    voters: [basicAuthorization],
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.userProfileModelRepository.deleteById(id);
