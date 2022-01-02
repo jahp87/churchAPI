@@ -33,15 +33,11 @@ export class MyUserService implements UserService<UserModel, Credentials> {
       throw new HttpErrors.Unauthorized(invalidCredentialsError);
     }
 
-    console.log(credentials.password);
-    console.log(credentialsFound.password);
-
     const passwordMatched = await this.passwordHasher.comparePassword(
       credentials.password,
       credentialsFound.password,
     );
 
-    console.log(passwordMatched);
 
     if (!passwordMatched) {
       throw new HttpErrors.Unauthorized(invalidCredentialsError);
