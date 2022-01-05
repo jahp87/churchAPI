@@ -13,7 +13,7 @@ export class Banner extends Entity {
   @property({
     type: 'string',
   })
-  imagen?: string;
+  path?: string;
 
   @property({
     type: 'string',

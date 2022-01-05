@@ -209,7 +209,14 @@ export class BannerController {
     return this.bannerRepository.find({
       where: {
         churchId: churchId
-      }
+      },
+      include: [
+        {
+          relation: 'church'
+        }
+      ],
+      order: ['createdDate DESC'],
+      limit: 10
     });
   }
 }
