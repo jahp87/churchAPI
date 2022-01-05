@@ -1,3 +1,4 @@
+export * from './banner.controller';
 export * from './church.controller';
 export * from './city.controller';
 export * from './country.controller';
