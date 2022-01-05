@@ -36,6 +36,13 @@ export class User extends Entity {
   })
   role: string;
 
+  activo: boolean;
+
+  @property({
+    type: 'string',
+    defualt: true
+  })
+
   @hasOne(() => UserCredentials)
   userCredentials: UserCredentials;
 

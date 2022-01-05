@@ -54,7 +54,7 @@ export const CredentialsRequestBody = {
   },
 };
 
-export class UserController {
+export class SecurityController {
   constructor(
     @repository(UserRepository) public userRepository: UserRepository,
     @inject(PasswordHasherBindings.PASSWORD_HASHER)
@@ -66,7 +66,7 @@ export class UserController {
   ) {
   }
 
-  @post('/users/sign-up', {
+  @post('/security/sign-up', {
     responses: {
       '200': {
         description: 'User',
@@ -131,7 +131,7 @@ export class UserController {
     }
   }
 
-  @post('/users/sign-up/admin', {
+  @post('/security/sign-up/admin', {
     responses: {
       '200': {
         description: 'User',
@@ -190,7 +190,7 @@ export class UserController {
   }
 
 
-  @get('/users/{userId}', {
+  @get('/security/{userId}', {
     responses: {
       '200': {
         description: 'User',
@@ -213,7 +213,7 @@ export class UserController {
     return this.userRepository.findById(userId);
   }
 
-  @get('/users/me', {
+  @get('/security/me', {
     responses: {
       '200': {
         description: 'The current user profile',
@@ -235,7 +235,7 @@ export class UserController {
     return this.userRepository.findById(userId);
   }
 
-  @post('/users/login', {
+  @post('/security/login', {
     responses: {
       '200': {
         description: 'Token',
