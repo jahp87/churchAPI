@@ -4,21 +4,22 @@ import {Entity, model, property} from '@loopback/repository';
 export class EmailTemplate extends Entity {
   @property({
     type: 'string',
-    default: 'noreply@churchapp.net',
   })
-  from: string;
+  from = 'no_reply@baplicada.cl';
 
   @property({
     type: 'string',
-    required: true,
+
   })
   to: string;
 
   @property({
     type: 'string',
-    required: true,
+    required: true
+
   })
   subject: string;
+
 
   @property({
     type: 'string',
@@ -28,9 +29,8 @@ export class EmailTemplate extends Entity {
 
   @property({
     type: 'string',
-    required: true,
   })
-  html: string;
+  html?: string;
 
 
   constructor(data?: Partial<EmailTemplate>) {

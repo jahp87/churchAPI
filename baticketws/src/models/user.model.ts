@@ -36,12 +36,17 @@ export class User extends Entity {
   })
   role: string;
 
-  activo: boolean;
+  @property({
+    type: 'string',
+    nullable: false,
+  })
+  resetKey: string;
 
   @property({
     type: 'string',
     defualt: true
   })
+  activo: boolean;
 
   @hasOne(() => UserCredentials)
   userCredentials: UserCredentials;

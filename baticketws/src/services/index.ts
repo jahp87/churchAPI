@@ -6,3 +6,4 @@ export * from './validator.service';
 
 
 
+export * from './email.service';
