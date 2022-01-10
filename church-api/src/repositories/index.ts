@@ -9,3 +9,4 @@ export * from './user-profile-model.repository';
 
 export * from './prayer.repository';
 export * from './banner.repository';
+export * from './service.repository';
