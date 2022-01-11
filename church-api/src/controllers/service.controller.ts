@@ -1,30 +1,28 @@
+import {authenticate} from '@loopback/authentication';
+import {authorize} from '@loopback/authorization';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, HttpErrors, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
+import {basicAuthorization} from '../middlewares/auth.midd';
 import {Service} from '../models';
-import {ServiceRepository} from '../repositories';
+import {ServiceRepository} from '../repositories/service.repository';
+
 
 export class ServiceController {
   constructor(
     @repository(ServiceRepository)
-    public serviceRepository : ServiceRepository,
-  ) {}
+    public serviceRepository: ServiceRepository,
+  ) { }
 
   @post('/services')
   @response(200, {
@@ -147,4 +145,36 @@ export class ServiceController {
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.serviceRepository.deleteById(id);
   }
+
+  @get('/services/getservicesbychurch')
+  @response(200, {
+    description: 'Array of Service model instances',
+    parameters: [{churchId: 'churchId', schema: {type: 'string'}, in: 'query'}],
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: getModelSchemaRef(Service, {includeRelations: true}),
+        },
+      },
+    },
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin', 'user'],
+    voters: [basicAuthorization],
+  })
+  async getServicesByChurch(
+    @param.query.string('churchId') churchId: string
+  ): Promise<Service[] | undefined> {
+
+    const result = await this.serviceRepository.getServicesByChurch(churchId);
+    if (result === null) {
+      return Promise.reject(new HttpErrors.NotFound('Church not found'));
+    }
+    else
+      return result;
+  }
+
+
 }
