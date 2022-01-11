@@ -9,3 +9,4 @@ export * from './email-template.model';
 export * from './node-mail.model';
 export * from './envelope.model';
 export * from './reset-password-init.model';
+export * from './empresa.model';

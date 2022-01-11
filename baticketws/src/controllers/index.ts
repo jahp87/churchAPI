@@ -5,3 +5,4 @@ export * from './perfil.controller';
 export * from './ping.controller';
 export * from './security.controller';
 
+export * from './empresa.controller';
