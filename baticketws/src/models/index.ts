@@ -10,3 +10,5 @@ export * from './node-mail.model';
 export * from './envelope.model';
 export * from './reset-password-init.model';
 export * from './empresa.model';
+export * from './pais.model';
+export * from './region.model';
