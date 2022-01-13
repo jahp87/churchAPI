@@ -1,4 +1,4 @@
-import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {ChurchModel} from './church-model.model';
 
 @model()
@@ -21,18 +21,6 @@ export class Service extends Entity {
     required: true,
   })
   date: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  weekday: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  hour: string;
 
   @belongsTo(() => ChurchModel)
   churchId: string;

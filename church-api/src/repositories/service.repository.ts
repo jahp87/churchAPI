@@ -1,5 +1,6 @@
 import {Getter, inject} from '@loopback/core';
 import {BelongsToAccessor, DefaultCrudRepository, repository} from '@loopback/repository';
+import moment from 'moment';
 import {MongodbDatasourceDataSource} from '../datasources';
 import {ChurchModel, Service, ServiceRelations} from '../models';
 import {ChurchModelRepository} from './church-model.repository';
@@ -23,13 +24,19 @@ export class ServiceRepository extends DefaultCrudRepository<
   async getServicesByChurch(churchId: string) {
     return this.find({
       where: {
-        churchId: churchId
+        churchId: churchId,
+        date: {gt: (moment(new Date())).format('DD-MMM-YYYY HH:mm:ss')},
+
       },
       include: [
         {
           relation: 'church'
         }
-      ]
+      ],
+      order: [
+        'date DESC'
+      ],
+      limit: 1
 
     });
   }

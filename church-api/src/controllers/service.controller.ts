@@ -146,7 +146,7 @@ export class ServiceController {
     await this.serviceRepository.deleteById(id);
   }
 
-  @get('/services/getservicesbychurch')
+  @get('/services/lastservicesbychurch')
   @response(200, {
     description: 'Array of Service model instances',
     parameters: [{churchId: 'churchId', schema: {type: 'string'}, in: 'query'}],
@@ -164,7 +164,7 @@ export class ServiceController {
     allowedRoles: ['admin', 'user'],
     voters: [basicAuthorization],
   })
-  async getServicesByChurch(
+  async lastServicesByChurch(
     @param.query.string('churchId') churchId: string
   ): Promise<Service[] | undefined> {
 
