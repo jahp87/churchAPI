@@ -5,3 +5,5 @@ export * from './departamento.repository';
 export * from './empresa.repository';
 export * from './pais.repository';
 export * from './region.repository';
+export * from './comuna.repository';
+export * from './ciudad.repository';

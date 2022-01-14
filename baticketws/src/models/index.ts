@@ -12,3 +12,5 @@ export * from './reset-password-init.model';
 export * from './empresa.model';
 export * from './pais.model';
 export * from './region.model';
+export * from './comuna.model';
+export * from './ciudad.model';
