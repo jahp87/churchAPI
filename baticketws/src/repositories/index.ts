@@ -7,3 +7,4 @@ export * from './pais.repository';
 export * from './region.repository';
 export * from './comuna.repository';
 export * from './ciudad.repository';
+export * from './promotor.repository';

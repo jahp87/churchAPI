@@ -14,3 +14,4 @@ export * from './pais.model';
 export * from './region.model';
 export * from './comuna.model';
 export * from './ciudad.model';
+export * from './promotor.model';
