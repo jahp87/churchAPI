@@ -166,14 +166,14 @@ export class ServiceController {
   })
   async lastServicesByChurch(
     @param.query.string('churchId') churchId: string
-  ): Promise<Service[] | undefined> {
+  ): Promise<Service> {
 
     const result = await this.serviceRepository.getServicesByChurch(churchId);
-    if (result === null) {
-      return Promise.reject(new HttpErrors.NotFound('Church not found'));
+    if (result === null || result.length === 0) {
+      return Promise.reject(new HttpErrors.NotFound('Church don\'t have next service'));
     }
     else
-      return result;
+      return result[0];
   }
 
 
