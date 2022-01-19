@@ -10,7 +10,7 @@ import {
 } from '@loopback/repository';
 import {
   del, get,
-  getModelSchemaRef, HttpErrors, param, patch, post, put, requestBody,
+  getModelSchemaRef, param, patch, post, put, requestBody,
   response
 } from '@loopback/rest';
 import {basicAuthorization} from '../middlewares/auth.midd';
@@ -166,11 +166,12 @@ export class ServiceController {
   })
   async lastServicesByChurch(
     @param.query.string('churchId') churchId: string
-  ): Promise<Service> {
+  ): Promise<Service | null> {
 
     const result = await this.serviceRepository.getServicesByChurch(churchId);
     if (result === null || result.length === 0) {
-      return Promise.reject(new HttpErrors.NotFound('Church don\'t have next service'));
+      //return Promise.reject(new HttpErrors.NotFound('Church don\'t have next service'));
+      return null;
     }
     else
       return result[0];

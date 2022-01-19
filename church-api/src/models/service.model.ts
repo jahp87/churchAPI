@@ -8,7 +8,7 @@ export class Service extends Entity {
     id: true,
     generated: true,
   })
-  id?: string;
+  id: string;
 
   @property({
     type: 'string',
