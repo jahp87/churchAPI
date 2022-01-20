@@ -7,6 +7,7 @@ export * from './filedownload.controller';
 export * from './ping.controller';
 export * from './prayer.controller';
 export * from './profile.controller';
+export * from './schedule.controller';
 export * from './service.controller';
 export * from './state.controller';
 export * from './user.controller';
