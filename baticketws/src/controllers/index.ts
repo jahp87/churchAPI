@@ -10,3 +10,4 @@ export * from './recinto.controller';
 export * from './region.controller';
 export * from './security.controller';
 
+export * from './usuario.controller';
