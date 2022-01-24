@@ -1,7 +1,7 @@
-import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, BelongsToAccessor} from '@loopback/repository';
+import {Getter, inject} from '@loopback/core';
+import {BelongsToAccessor, DefaultCrudRepository, repository} from '@loopback/repository';
 import {MongodbDatasourceDataSource} from '../datasources';
-import {Prayer, PrayerRelations, ChurchModel} from '../models';
+import {ChurchModel, Prayer, PrayerRelations} from '../models';
 import {ChurchModelRepository} from './church-model.repository';
 
 export class PrayerRepository extends DefaultCrudRepository<
@@ -19,4 +19,23 @@ export class PrayerRepository extends DefaultCrudRepository<
     this.church = this.createBelongsToAccessorFor('church', churchModelRepositoryGetter,);
     this.registerInclusionResolver('church', this.church.inclusionResolver);
   }
+
+  async getPrayerByChurch(churchId: string) {
+    return this.find({
+      where: {
+        churchId: churchId
+      },
+      include: [
+        {
+          relation: 'church'
+        }
+      ],
+      order: [
+        'created DESC'
+      ]
+
+    });
+  }
 }
+
+

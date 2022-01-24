@@ -1,4 +1,4 @@
-import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {ChurchModel} from './church-model.model';
 
 @model()
@@ -8,28 +8,33 @@ export class Prayer extends Entity {
     id: true,
     generated: true,
   })
-  id?: string;
+  id: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  prayerLink: string;
+  link: string;
 
   @property({
     type: 'string',
   })
-  title?: string;
+  title: string;
 
   @property({
     type: 'string',
   })
-  preacherName?: string;
+  preacher: string;
 
   @property({
     type: 'date',
   })
-  createdDate?: string;
+  created: string;
+
+  @property({
+    type: 'string',
+  })
+  thumb: string;
 
   @belongsTo(() => ChurchModel)
   churchId: string;

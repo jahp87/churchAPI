@@ -184,4 +184,28 @@ export class PrayerController {
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.prayerRepository.deleteById(id);
   }
+
+  @get('/prayers/getprayerbychurch')
+  @response(200, {
+    description: 'Array of prayer model instances',
+    parameters: [{churchId: 'churchId', schema: {type: 'string'}, in: 'query'}],
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: getModelSchemaRef(Prayer, {includeRelations: true}),
+        },
+      },
+    },
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['admin', 'user'],
+    voters: [basicAuthorization],
+  })
+  async getPrayerByChurch(
+    @param.query.string('churchId') churchId: string,
+  ): Promise<Prayer[]> {
+    return this.prayerRepository.getPrayerByChurch(churchId);
+  }
 }
