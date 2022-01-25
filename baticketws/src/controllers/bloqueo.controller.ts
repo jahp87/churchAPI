@@ -139,6 +139,7 @@ export class BloqueoController {
     allowedRoles: ['admin'],
     voters: [basicAuthorization],
   })
+  
   @response(204, {
     description: 'Bloqueo PATCH success',
   })
@@ -165,6 +166,7 @@ export class BloqueoController {
   @response(204, {
     description: 'Bloqueo PUT success',
   })
+
   async replaceById(
     @param.path.string('id') id: string,
     @requestBody() bloqueo: Bloqueo,
@@ -178,6 +180,7 @@ export class BloqueoController {
     allowedRoles: ['admin'],
     voters: [basicAuthorization],
   })
+
   @response(204, {
     description: 'Bloqueo DELETE success',
   })
