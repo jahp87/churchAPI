@@ -9,3 +9,4 @@ export * from './comuna.repository';
 export * from './ciudad.repository';
 export * from './promotor.repository';
 export * from './recinto.repository';
+export * from './bloqueo.repository';

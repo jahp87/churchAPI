@@ -16,3 +16,4 @@ export * from './comuna.model';
 export * from './ciudad.model';
 export * from './promotor.model';
 export * from './recinto.model';
+export * from './bloqueo.model';
