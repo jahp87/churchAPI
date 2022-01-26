@@ -139,7 +139,7 @@ export class BloqueoController {
     allowedRoles: ['admin'],
     voters: [basicAuthorization],
   })
-  
+
   @response(204, {
     description: 'Bloqueo PATCH success',
   })
