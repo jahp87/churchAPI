@@ -10,3 +10,5 @@ export * from './ciudad.repository';
 export * from './promotor.repository';
 export * from './recinto.repository';
 export * from './bloqueo.repository';
+export * from './canal-venta-estado.repository';
+export * from './canal-venta.repository';

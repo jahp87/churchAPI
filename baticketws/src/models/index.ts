@@ -17,3 +17,5 @@ export * from './ciudad.model';
 export * from './promotor.model';
 export * from './recinto.model';
 export * from './bloqueo.model';
+export * from './canal-venta-estado.model';
+export * from './canal-venta.model';
