@@ -1,28 +1,30 @@
-# Check out https://hub.docker.com/_/node to select a new base image
-FROM node:16-slim
+# base image
+FROM node:16
 
-# Set to a non-root built-in user `node`
-USER node
+# environment
+ENV DEBIAN_FRONTEND noninteractive
 
-# Create app directory (with user `node`)
-RUN mkdir -p /home/node/app
+# tools
+RUN apt-get update && apt-get install -y wget curl nano sudo zip unzip
 
-WORKDIR /home/node/app
+# install LoopBack 4 CLI
+RUN npm i -g @loopback/cli
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY --chown=node package*.json ./
+# create app directory
+WORKDIR /usr/src/app
 
+# install app dependencies. A wildcard is used to ensure both package.json AND package-lock.json are copied where available (npm@5+)
+COPY package*.json ./
 RUN npm install
 
-# Bundle app source code
-COPY --chown=node . .
+# bundle app source
+COPY . .
 
-RUN npm run build
+# set permissions
+RUN chmod 755 /usr/src/app/ -R
 
-# Bind to all network interfaces so that it can be mapped to the host OS
-ENV HOST=0.0.0.0 PORT=3000
+# expose port to docker network
+EXPOSE 3000
 
-EXPOSE ${PORT}
-CMD [ "node", "." ]
+# start app
+CMD [ "npm", "start" ]
