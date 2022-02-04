@@ -4,18 +4,12 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
@@ -23,10 +17,10 @@ import {UserRepository} from '../repositories';
 export class UsuarioController {
   constructor(
     @repository(UserRepository)
-    public userRepository : UserRepository,
-  ) {}
+    public userRepository: UserRepository,
+  ) { }
 
-  @post('/users')
+  @post('/api/users')
   @response(200, {
     description: 'User model instance',
     content: {'application/json': {schema: getModelSchemaRef(User)}},
@@ -47,7 +41,7 @@ export class UsuarioController {
     return this.userRepository.create(user);
   }
 
-  @get('/users/count')
+  @get('/api/users/count')
   @response(200, {
     description: 'User model count',
     content: {'application/json': {schema: CountSchema}},
@@ -58,7 +52,7 @@ export class UsuarioController {
     return this.userRepository.count(where);
   }
 
-  @get('/users')
+  @get('/api/users')
   @response(200, {
     description: 'Array of User model instances',
     content: {
@@ -76,7 +70,7 @@ export class UsuarioController {
     return this.userRepository.find(filter);
   }
 
-  @patch('/users')
+  @patch('/api/users')
   @response(200, {
     description: 'User PATCH success count',
     content: {'application/json': {schema: CountSchema}},
@@ -95,7 +89,7 @@ export class UsuarioController {
     return this.userRepository.updateAll(user, where);
   }
 
-  @get('/users/{id}')
+  @get('/api/users/{id}')
   @response(200, {
     description: 'User model instance',
     content: {
@@ -111,7 +105,7 @@ export class UsuarioController {
     return this.userRepository.findById(id, filter);
   }
 
-  @patch('/users/{id}')
+  @patch('/api/users/{id}')
   @response(204, {
     description: 'User PATCH success',
   })
@@ -129,7 +123,7 @@ export class UsuarioController {
     await this.userRepository.updateById(id, user);
   }
 
-  @put('/users/{id}')
+  @put('/api/users/{id}')
   @response(204, {
     description: 'User PUT success',
   })
@@ -140,7 +134,7 @@ export class UsuarioController {
     await this.userRepository.replaceById(id, user);
   }
 
-  @del('/users/{id}')
+  @del('/api/users/{id}')
   @response(204, {
     description: 'User DELETE success',
   })

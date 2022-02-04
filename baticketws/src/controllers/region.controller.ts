@@ -65,7 +65,7 @@ export class RegionController {
     return this.regionRepository.count(where);
   }
 
-  @get('/regions')
+  @get('/api/regions')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -88,7 +88,7 @@ export class RegionController {
     return this.regionRepository.find(filter);
   }
 
-  @patch('/regions')
+  @patch('/api/regions')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -112,7 +112,7 @@ export class RegionController {
     return this.regionRepository.updateAll(region, where);
   }
 
-  @get('/regions/{id}')
+  @get('/api/regions/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -133,7 +133,7 @@ export class RegionController {
     return this.regionRepository.findById(id, filter);
   }
 
-  @patch('/regions/{id}')
+  @patch('/api/regions/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -156,7 +156,7 @@ export class RegionController {
     await this.regionRepository.updateById(id, region);
   }
 
-  @put('/regions/{id}')
+  @put('/api/regions/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -172,7 +172,7 @@ export class RegionController {
     await this.regionRepository.replaceById(id, region);
   }
 
-  @del('/regions/{id}')
+  @del('/api/regions/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],

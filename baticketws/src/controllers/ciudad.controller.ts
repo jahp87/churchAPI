@@ -23,7 +23,7 @@ export class CiudadController {
     public ciudadRepository: CiudadRepository,
   ) { }
 
-  @post('/ciudad')
+  @post('/api/ciudad')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -49,7 +49,7 @@ export class CiudadController {
     return this.ciudadRepository.create(ciudad);
   }
 
-  @get('/ciudad/count')
+  @get('/api/ciudad/count')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -65,7 +65,7 @@ export class CiudadController {
     return this.ciudadRepository.count(where);
   }
 
-  @get('/ciudad')
+  @get('/api/ciudad')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -88,7 +88,7 @@ export class CiudadController {
     return this.ciudadRepository.find(filter);
   }
 
-  @patch('/ciudad')
+  @patch('/api/ciudad')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -112,7 +112,7 @@ export class CiudadController {
     return this.ciudadRepository.updateAll(ciudad, where);
   }
 
-  @get('/ciudad/{id}')
+  @get('/api/ciudad/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -133,7 +133,7 @@ export class CiudadController {
     return this.ciudadRepository.findById(id, filter);
   }
 
-  @patch('/ciudad/{id}')
+  @patch('/api/ciudad/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -156,7 +156,7 @@ export class CiudadController {
     await this.ciudadRepository.updateById(id, ciudad);
   }
 
-  @put('/ciudad/{id}')
+  @put('/api/ciudad/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -172,7 +172,7 @@ export class CiudadController {
     await this.ciudadRepository.replaceById(id, ciudad);
   }
 
-  @del('/ciudad/{id}')
+  @del('/api/ciudad/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],

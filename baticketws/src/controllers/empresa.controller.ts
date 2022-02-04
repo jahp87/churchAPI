@@ -28,7 +28,7 @@ export class EmpresaController {
     public empresaRepository: EmpresaRepository,
   ) { }
 
-  @post('/empresas')
+  @post('/api/empresas')
   @response(200, {
     description: 'Empresa model instance',
     content: {'application/json': {schema: getModelSchemaRef(Empresa)}},
@@ -49,7 +49,7 @@ export class EmpresaController {
     return this.empresaRepository.create(empresa);
   }
 
-  @get('/empresas/count')
+  @get('/api/empresas/count')
   @response(200, {
     description: 'Empresa model count',
     content: {'application/json': {schema: CountSchema}},
@@ -60,7 +60,7 @@ export class EmpresaController {
     return this.empresaRepository.count(where);
   }
 
-  @get('/empresas')
+  @get('/api/empresas')
   @response(200, {
     description: 'Array of Empresa model instances',
     content: {
@@ -78,7 +78,7 @@ export class EmpresaController {
     return this.empresaRepository.find(filter);
   }
 
-  @patch('/empresas')
+  @patch('/api/empresas')
   @response(200, {
     description: 'Empresa PATCH success count',
     content: {'application/json': {schema: CountSchema}},
@@ -97,7 +97,7 @@ export class EmpresaController {
     return this.empresaRepository.updateAll(empresa, where);
   }
 
-  @get('/empresas/{id}')
+  @get('/api/empresas/{id}')
   @response(200, {
     description: 'Empresa model instance',
     content: {
@@ -113,7 +113,7 @@ export class EmpresaController {
     return this.empresaRepository.findById(id, filter);
   }
 
-  @patch('/empresas/{id}')
+  @patch('/api/empresas/{id}')
   @response(204, {
     description: 'Empresa PATCH success',
   })
@@ -131,7 +131,7 @@ export class EmpresaController {
     await this.empresaRepository.updateById(id, empresa);
   }
 
-  @put('/empresas/{id}')
+  @put('/api/empresas/{id}')
   @response(204, {
     description: 'Empresa PUT success',
   })
@@ -142,7 +142,7 @@ export class EmpresaController {
     await this.empresaRepository.replaceById(id, empresa);
   }
 
-  @del('/empresas/{id}')
+  @del('/api/empresas/{id}')
   @response(204, {
     description: 'Empresa DELETE success',
   })

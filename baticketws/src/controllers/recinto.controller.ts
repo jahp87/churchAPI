@@ -23,7 +23,7 @@ export class RecintoController {
     public recintoRepository: RecintoRepository,
   ) { }
 
-  @post('/recintos')
+  @post('/api/recintos')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -49,7 +49,7 @@ export class RecintoController {
     return this.recintoRepository.create(recinto);
   }
 
-  @get('/recintos/count')
+  @get('/api/recintos/count')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -65,7 +65,7 @@ export class RecintoController {
     return this.recintoRepository.count(where);
   }
 
-  @get('/recintos')
+  @get('/api/recintos')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -88,7 +88,7 @@ export class RecintoController {
     return this.recintoRepository.find(filter);
   }
 
-  @patch('/recintos')
+  @patch('/api/recintos')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -112,7 +112,7 @@ export class RecintoController {
     return this.recintoRepository.updateAll(recinto, where);
   }
 
-  @get('/recintos/{id}')
+  @get('/api/recintos/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -133,7 +133,7 @@ export class RecintoController {
     return this.recintoRepository.findById(id, filter);
   }
 
-  @patch('/recintos/{id}')
+  @patch('/api/recintos/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -156,7 +156,7 @@ export class RecintoController {
     await this.recintoRepository.updateById(id, recinto);
   }
 
-  @put('/recintos/{id}')
+  @put('/api/recintos/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -172,7 +172,7 @@ export class RecintoController {
     await this.recintoRepository.replaceById(id, recinto);
   }
 
-  @del('/recintos/{id}')
+  @del('/api/recintos/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],

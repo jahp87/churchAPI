@@ -23,7 +23,7 @@ export class PromotorController {
     public promotorRepository: PromotorRepository,
   ) { }
 
-  @post('/promotores')
+  @post('/api/promotores')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -49,7 +49,7 @@ export class PromotorController {
     return this.promotorRepository.create(promotor);
   }
 
-  @get('/promotores/count')
+  @get('/api/promotores/count')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -65,7 +65,7 @@ export class PromotorController {
     return this.promotorRepository.count(where);
   }
 
-  @get('/promotores')
+  @get('/api/promotores')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -88,7 +88,7 @@ export class PromotorController {
     return this.promotorRepository.find(filter);
   }
 
-  @patch('/promotores')
+  @patch('/api/promotores')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -112,7 +112,7 @@ export class PromotorController {
     return this.promotorRepository.updateAll(promotor, where);
   }
 
-  @get('/promotores/{id}')
+  @get('/api/promotores/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -133,7 +133,7 @@ export class PromotorController {
     return this.promotorRepository.findById(id, filter);
   }
 
-  @patch('/promotores/{id}')
+  @patch('/api/promotores/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -156,7 +156,7 @@ export class PromotorController {
     await this.promotorRepository.updateById(id, promotor);
   }
 
-  @put('/promotores/{id}')
+  @put('/api/promotores/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -172,7 +172,7 @@ export class PromotorController {
     await this.promotorRepository.replaceById(id, promotor);
   }
 
-  @del('/promotores/{id}')
+  @del('/api/promotores/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],

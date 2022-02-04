@@ -4,18 +4,12 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {CanalVenta} from '../models';
 import {CanalVentaRepository} from '../repositories';
@@ -23,10 +17,10 @@ import {CanalVentaRepository} from '../repositories';
 export class CanalVentaController {
   constructor(
     @repository(CanalVentaRepository)
-    public canalVentaRepository : CanalVentaRepository,
-  ) {}
+    public canalVentaRepository: CanalVentaRepository,
+  ) { }
 
-  @post('/canalventas')
+  @post('/api/canalventas')
   @response(200, {
     description: 'CanalVenta model instance',
     content: {'application/json': {schema: getModelSchemaRef(CanalVenta)}},
@@ -47,7 +41,7 @@ export class CanalVentaController {
     return this.canalVentaRepository.create(canalVenta);
   }
 
-  @get('/canalventas/count')
+  @get('/api/canalventas/count')
   @response(200, {
     description: 'CanalVenta model count',
     content: {'application/json': {schema: CountSchema}},
@@ -58,7 +52,7 @@ export class CanalVentaController {
     return this.canalVentaRepository.count(where);
   }
 
-  @get('/canalventas')
+  @get('/api/canalventas')
   @response(200, {
     description: 'Array of CanalVenta model instances',
     content: {
@@ -76,7 +70,7 @@ export class CanalVentaController {
     return this.canalVentaRepository.find(filter);
   }
 
-  @patch('/canalventas')
+  @patch('/api/canalventas')
   @response(200, {
     description: 'CanalVenta PATCH success count',
     content: {'application/json': {schema: CountSchema}},
@@ -95,7 +89,7 @@ export class CanalVentaController {
     return this.canalVentaRepository.updateAll(canalVenta, where);
   }
 
-  @get('/canalventas/{id}')
+  @get('/api/canalventas/{id}')
   @response(200, {
     description: 'CanalVenta model instance',
     content: {
@@ -111,7 +105,7 @@ export class CanalVentaController {
     return this.canalVentaRepository.findById(id, filter);
   }
 
-  @patch('/canalventas/{id}')
+  @patch('/api/canalventas/{id}')
   @response(204, {
     description: 'CanalVenta PATCH success',
   })
@@ -129,7 +123,7 @@ export class CanalVentaController {
     await this.canalVentaRepository.updateById(id, canalVenta);
   }
 
-  @put('/canalventas/{id}')
+  @put('/api/canalventas/{id}')
   @response(204, {
     description: 'CanalVenta PUT success',
   })
@@ -140,7 +134,7 @@ export class CanalVentaController {
     await this.canalVentaRepository.replaceById(id, canalVenta);
   }
 
-  @del('/canalventas/{id}')
+  @del('/api/canalventas/{id}')
   @response(204, {
     description: 'CanalVenta DELETE success',
   })

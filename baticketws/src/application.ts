@@ -50,6 +50,8 @@ export class BaticketwsApplication extends BootMixin(
         nested: true,
       },
     };
+
+
     this.setUpBindings();
     this.configureFileUpload(options.fileStorageDirectory);
 

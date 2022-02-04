@@ -71,7 +71,7 @@ export class SecurityController {
   ) {
   }
 
-  @post('/security/sign-up', {
+  @post('/api/security/sign-up', {
     responses: {
       '200': {
         description: 'User',
@@ -86,17 +86,7 @@ export class SecurityController {
     },
   })
   async create(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(NewUserRequest, {
-            title: 'NewUser',
-            exclude: ['id', 'role', 'resetKey', 'activo']
-          }),
-        },
-      },
-    })
-    newUserRequest: NewUserRequest,
+    @requestBody(CredentialsRequestBody) newUserRequest: Credentials,
   ): Promise<User> {
     newUserRequest.role = 'user';
 
@@ -114,7 +104,6 @@ export class SecurityController {
       throw new HttpErrors.BadRequest('Email value is already taken');
     }
 
-    newUserRequest.activo = true;
 
     try {
       // create the new user
@@ -138,7 +127,7 @@ export class SecurityController {
     }
   }
 
-  @post('/security/sign-up/admin', {
+  @post('/api/security/sign-up/admin', {
     responses: {
       '200': {
         description: 'User',
@@ -197,7 +186,7 @@ export class SecurityController {
   }
 
 
-  @get('/security/{userId}', {
+  @get('/api/security/{userId}', {
     responses: {
       '200': {
         description: 'User',
@@ -220,7 +209,7 @@ export class SecurityController {
     return this.userRepository.findById(userId);
   }
 
-  @get('/security/me', {
+  @get('/api/security/me', {
     responses: {
       '200': {
         description: 'The current user profile',
@@ -242,7 +231,7 @@ export class SecurityController {
     return this.userRepository.findById(userId);
   }
 
-  @post('/security/login', {
+  @post('/api/security/login', {
     responses: {
       '200': {
         description: 'Token',
@@ -276,7 +265,7 @@ export class SecurityController {
     return {token};
   }
 
-  @post('/security/reset-password/init')
+  @post('/api/security/reset-password/init')
   async resetPasswordInit(
     @requestBody() resetPasswordInit: ResetPasswordInit,
   ): Promise<{email: string}> {
@@ -329,7 +318,7 @@ export class SecurityController {
     return email;
   }
 
-  @post('/security/reset-password/finish')
+  @post('/api/security/reset-password/finish')
   async resetPasswordFinish(
     @requestBody() keyAndPassword: KeyAndPassword,
   ): Promise<User> {
@@ -394,7 +383,7 @@ export class SecurityController {
   }
 
 
-  @post('/security/sign-up/promoter', {
+  @post('/api/security/sign-up/promoter', {
     responses: {
       '200': {
         description: 'User',

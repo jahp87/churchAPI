@@ -20,7 +20,7 @@ export class DepartamentoController {
     public departamentoRepository: DepartamentoRepository,
   ) { }
 
-  @post('/departamentos')
+  @post('/api/departamentos')
   @response(200, {
     description: 'Departamento model instance',
     content: {'application/json': {schema: getModelSchemaRef(Departamento)}},
@@ -41,7 +41,7 @@ export class DepartamentoController {
     return this.departamentoRepository.create(departamento);
   }
 
-  @get('/departamentos/count')
+  @get('/api/departamentos/count')
   @response(200, {
     description: 'Departamento model count',
     content: {'application/json': {schema: CountSchema}},
@@ -70,7 +70,7 @@ export class DepartamentoController {
     return this.departamentoRepository.find(filter);
   }
 
-  @patch('/departamentos')
+  @patch('/api/departamentos')
   @response(200, {
     description: 'Departamento PATCH success count',
     content: {'application/json': {schema: CountSchema}},
@@ -89,7 +89,7 @@ export class DepartamentoController {
     return this.departamentoRepository.updateAll(departamento, where);
   }
 
-  @get('/departamentos/{id}')
+  @get('/api/departamentos/{id}')
   @response(200, {
     description: 'Departamento model instance',
     content: {
@@ -105,7 +105,7 @@ export class DepartamentoController {
     return this.departamentoRepository.findById(id, filter);
   }
 
-  @patch('/departamentos/{id}')
+  @patch('/api/departamentos/{id}')
   @response(204, {
     description: 'Departamento PATCH success',
   })
@@ -123,7 +123,7 @@ export class DepartamentoController {
     await this.departamentoRepository.updateById(id, departamento);
   }
 
-  @put('/departamentos/{id}')
+  @put('/api/departamentos/{id}')
   @response(204, {
     description: 'Departamento PUT success',
   })
@@ -134,7 +134,7 @@ export class DepartamentoController {
     await this.departamentoRepository.replaceById(id, departamento);
   }
 
-  @del('/departamentos/{id}')
+  @del('/api/departamentos/{id}')
   @response(204, {
     description: 'Departamento DELETE success',
   })

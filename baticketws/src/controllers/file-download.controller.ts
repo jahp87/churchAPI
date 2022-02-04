@@ -10,7 +10,7 @@ const SANDBOX = path.resolve(__dirname, '../../uploads');
  * A controller to handle file downloads using multipart/form-data media type
  */
 export class FileDownloadController {
-  @get('/files', {
+  @get('/api/files', {
     responses: {
       200: {
         content: {
@@ -33,7 +33,7 @@ export class FileDownloadController {
     return files;
   }
 
-  @get('/files/{filename}')
+  @get('/api/files/{filename}')
   @oas.response.file()
   downloadFile(
     @param.path.string('filename') fileName: string,

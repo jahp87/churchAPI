@@ -4,18 +4,12 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {Perfil} from '../models';
 import {PerfilRepository} from '../repositories';
@@ -23,10 +17,10 @@ import {PerfilRepository} from '../repositories';
 export class PerfilController {
   constructor(
     @repository(PerfilRepository)
-    public perfilRepository : PerfilRepository,
-  ) {}
+    public perfilRepository: PerfilRepository,
+  ) { }
 
-  @post('/perfiles')
+  @post('/api/perfiles')
   @response(200, {
     description: 'Perfil model instance',
     content: {'application/json': {schema: getModelSchemaRef(Perfil)}},
@@ -47,7 +41,7 @@ export class PerfilController {
     return this.perfilRepository.create(perfil);
   }
 
-  @get('/perfiles/count')
+  @get('/api/perfiles/count')
   @response(200, {
     description: 'Perfil model count',
     content: {'application/json': {schema: CountSchema}},
@@ -58,7 +52,7 @@ export class PerfilController {
     return this.perfilRepository.count(where);
   }
 
-  @get('/perfiles')
+  @get('/api/perfiles')
   @response(200, {
     description: 'Array of Perfil model instances',
     content: {
@@ -76,7 +70,7 @@ export class PerfilController {
     return this.perfilRepository.find(filter);
   }
 
-  @patch('/perfiles')
+  @patch('/api/perfiles')
   @response(200, {
     description: 'Perfil PATCH success count',
     content: {'application/json': {schema: CountSchema}},
@@ -95,7 +89,7 @@ export class PerfilController {
     return this.perfilRepository.updateAll(perfil, where);
   }
 
-  @get('/perfiles/{id}')
+  @get('/api/perfiles/{id}')
   @response(200, {
     description: 'Perfil model instance',
     content: {
@@ -111,7 +105,7 @@ export class PerfilController {
     return this.perfilRepository.findById(id, filter);
   }
 
-  @patch('/perfiles/{id}')
+  @patch('/api/perfiles/{id}')
   @response(204, {
     description: 'Perfil PATCH success',
   })
@@ -129,7 +123,7 @@ export class PerfilController {
     await this.perfilRepository.updateById(id, perfil);
   }
 
-  @put('/perfiles/{id}')
+  @put('/api/perfiles/{id}')
   @response(204, {
     description: 'Perfil PUT success',
   })
@@ -140,7 +134,7 @@ export class PerfilController {
     await this.perfilRepository.replaceById(id, perfil);
   }
 
-  @del('/perfiles/{id}')
+  @del('/api/perfiles/{id}')
   @response(204, {
     description: 'Perfil DELETE success',
   })

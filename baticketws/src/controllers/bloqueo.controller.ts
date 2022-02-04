@@ -23,7 +23,7 @@ export class BloqueoController {
     public bloqueoRepository: BloqueoRepository,
   ) { }
 
-  @post('/bloqueos')
+  @post('/api/bloqueos')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -49,7 +49,7 @@ export class BloqueoController {
     return this.bloqueoRepository.create(bloqueo);
   }
 
-  @get('/bloqueos/count')
+  @get('/api/bloqueos/count')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -65,7 +65,7 @@ export class BloqueoController {
     return this.bloqueoRepository.count(where);
   }
 
-  @get('/bloqueos')
+  @get('/api/bloqueos')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -88,7 +88,7 @@ export class BloqueoController {
     return this.bloqueoRepository.find(filter);
   }
 
-  @patch('/bloqueos')
+  @patch('/api/bloqueos')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -112,7 +112,7 @@ export class BloqueoController {
     return this.bloqueoRepository.updateAll(bloqueo, where);
   }
 
-  @get('/bloqueos/{id}')
+  @get('/api/bloqueos/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -133,7 +133,7 @@ export class BloqueoController {
     return this.bloqueoRepository.findById(id, filter);
   }
 
-  @patch('/bloqueos/{id}')
+  @patch('/api/bloqueos/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -157,7 +157,7 @@ export class BloqueoController {
     await this.bloqueoRepository.updateById(id, bloqueo);
   }
 
-  @put('/bloqueos/{id}')
+  @put('/api/bloqueos/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -174,7 +174,7 @@ export class BloqueoController {
     await this.bloqueoRepository.replaceById(id, bloqueo);
   }
 
-  @del('/bloqueos/{id}')
+  @del('/api/bloqueos/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],

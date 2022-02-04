@@ -23,7 +23,7 @@ export class PaisController {
     public paisRepository: PaisRepository,
   ) { }
 
-  @post('/pais')
+  @post('/api/pais')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -49,7 +49,7 @@ export class PaisController {
     return this.paisRepository.create(pais);
   }
 
-  @get('/pais/count')
+  @get('/api/pais/count')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -65,7 +65,7 @@ export class PaisController {
     return this.paisRepository.count(where);
   }
 
-  @get('/pais')
+  @get('/api/pais')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -88,7 +88,7 @@ export class PaisController {
     return this.paisRepository.find(filter);
   }
 
-  @patch('/pais')
+  @patch('/api/pais')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -112,7 +112,7 @@ export class PaisController {
     return this.paisRepository.updateAll(pais, where);
   }
 
-  @get('/pais/{id}')
+  @get('/api/pais/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -133,7 +133,7 @@ export class PaisController {
     return this.paisRepository.findById(id, filter);
   }
 
-  @patch('/pais/{id}')
+  @patch('/api/pais/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -156,7 +156,7 @@ export class PaisController {
     await this.paisRepository.updateById(id, pais);
   }
 
-  @put('/pais/{id}')
+  @put('/api/pais/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -172,7 +172,7 @@ export class PaisController {
     await this.paisRepository.replaceById(id, pais);
   }
 
-  @del('/pais/{id}')
+  @del('/api/pais/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],

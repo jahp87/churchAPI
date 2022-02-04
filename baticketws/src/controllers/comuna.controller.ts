@@ -23,7 +23,7 @@ export class ComunaController {
     public comunaRepository: ComunaRepository,
   ) { }
 
-  @post('/comunas')
+  @post('/api/comunas')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -49,7 +49,7 @@ export class ComunaController {
     return this.comunaRepository.create(comuna);
   }
 
-  @get('/comunas/count')
+  @get('/api/comunas/count')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -65,7 +65,7 @@ export class ComunaController {
     return this.comunaRepository.count(where);
   }
 
-  @get('/comunas')
+  @get('/api/comunas')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -88,7 +88,7 @@ export class ComunaController {
     return this.comunaRepository.find(filter);
   }
 
-  @patch('/comunas')
+  @patch('/api/comunas')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -112,7 +112,7 @@ export class ComunaController {
     return this.comunaRepository.updateAll(comuna, where);
   }
 
-  @get('/comunas/{id}')
+  @get('/api/comunas/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -133,7 +133,7 @@ export class ComunaController {
     return this.comunaRepository.findById(id, filter);
   }
 
-  @patch('/comunas/{id}')
+  @patch('/api/comunas/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -156,7 +156,7 @@ export class ComunaController {
     await this.comunaRepository.updateById(id, comuna);
   }
 
-  @put('/comunas/{id}')
+  @put('/api/comunas/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -172,7 +172,7 @@ export class ComunaController {
     await this.comunaRepository.replaceById(id, comuna);
   }
 
-  @del('/comunas/{id}')
+  @del('/api/comunas/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
