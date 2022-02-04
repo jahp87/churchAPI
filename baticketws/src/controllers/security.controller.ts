@@ -2,7 +2,7 @@ import {authenticate, TokenService, UserService} from '@loopback/authentication'
 import {authorize} from '@loopback/authorization';
 import {inject} from '@loopback/core';
 import {model, property, repository} from '@loopback/repository';
-import {get, getModelSchemaRef, HttpErrors, param, post, requestBody, SchemaObject} from '@loopback/rest';
+import {get, HttpErrors, param, post, requestBody, SchemaObject} from '@loopback/rest';
 import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
 import _ from 'lodash';
@@ -142,16 +142,7 @@ export class SecurityController {
     },
   })
   async createadmin(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(NewUserRequest, {
-            title: 'NewUser',
-          }),
-        },
-      },
-    })
-    newUserRequest: NewUserRequest,
+    @requestBody(CredentialsRequestBody) newUserRequest: Credentials,
   ): Promise<User> {
     // All new users have the "customer" role by default
     newUserRequest.role = 'admin';
@@ -398,16 +389,7 @@ export class SecurityController {
     },
   })
   async createpromoter(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(NewUserRequest, {
-            title: 'NewUser',
-          }),
-        },
-      },
-    })
-    newUserRequest: NewUserRequest,
+    @requestBody(CredentialsRequestBody) newUserRequest: Credentials,
   ): Promise<User> {
     // All new users have the "customer" role by default
     newUserRequest.role = 'promoter';
