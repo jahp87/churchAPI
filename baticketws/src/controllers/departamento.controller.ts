@@ -52,7 +52,7 @@ export class DepartamentoController {
     return this.departamentoRepository.count(where);
   }
 
-  @get('/departamentos')
+  @get('/api/departamentos')
   @response(200, {
     description: 'Array of Departamento model instances',
     content: {
