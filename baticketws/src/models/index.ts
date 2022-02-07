@@ -19,3 +19,5 @@ export * from './recinto.model';
 export * from './bloqueo.model';
 export * from './canal-venta-estado.model';
 export * from './canal-venta.model';
+export * from './categoria-evento.model';
+export * from './evento.model';
