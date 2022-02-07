@@ -23,7 +23,7 @@ export class EventoController {
     public eventoRepository: EventoRepository,
   ) { }
 
-  @post('/eventos')
+  @post('/api/eventos')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -49,7 +49,7 @@ export class EventoController {
     return this.eventoRepository.create(evento);
   }
 
-  @get('/eventos/count')
+  @get('/api/eventos/count')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -65,7 +65,7 @@ export class EventoController {
     return this.eventoRepository.count(where);
   }
 
-  @get('/eventos')
+  @get('/api/eventos')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -88,7 +88,7 @@ export class EventoController {
     return this.eventoRepository.find(filter);
   }
 
-  @patch('/eventos')
+  @patch('/api/eventos')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -112,7 +112,7 @@ export class EventoController {
     return this.eventoRepository.updateAll(evento, where);
   }
 
-  @get('/eventos/{id}')
+  @get('/api/eventos/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -133,7 +133,7 @@ export class EventoController {
     return this.eventoRepository.findById(id, filter);
   }
 
-  @patch('/eventos/{id}')
+  @patch('/api/eventos/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -156,7 +156,7 @@ export class EventoController {
     await this.eventoRepository.updateById(id, evento);
   }
 
-  @put('/eventos/{id}')
+  @put('/api/eventos/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -172,7 +172,7 @@ export class EventoController {
     await this.eventoRepository.replaceById(id, evento);
   }
 
-  @del('/eventos/{id}')
+  @del('/api/eventos/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],

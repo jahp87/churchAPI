@@ -23,7 +23,7 @@ export class CategoriaEventoController {
     public categoriaEventoRepository: CategoriaEventoRepository,
   ) { }
 
-  @post('/categoriaevento')
+  @post('/api/categoriaevento')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -49,7 +49,7 @@ export class CategoriaEventoController {
     return this.categoriaEventoRepository.create(categoriaEvento);
   }
 
-  @get('/categoriaevento/count')
+  @get('/api/categoriaevento/count')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -65,7 +65,7 @@ export class CategoriaEventoController {
     return this.categoriaEventoRepository.count(where);
   }
 
-  @get('/categoriaevento')
+  @get('/api/categoriaevento')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -88,7 +88,7 @@ export class CategoriaEventoController {
     return this.categoriaEventoRepository.find(filter);
   }
 
-  @patch('/categoriaevento')
+  @patch('/api/categoriaevento')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -112,7 +112,7 @@ export class CategoriaEventoController {
     return this.categoriaEventoRepository.updateAll(categoriaEvento, where);
   }
 
-  @get('/categoriaevento/{id}')
+  @get('/api/categoriaevento/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -133,7 +133,7 @@ export class CategoriaEventoController {
     return this.categoriaEventoRepository.findById(id, filter);
   }
 
-  @patch('/categoriaevento/{id}')
+  @patch('/api/categoriaevento/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -156,7 +156,7 @@ export class CategoriaEventoController {
     await this.categoriaEventoRepository.updateById(id, categoriaEvento);
   }
 
-  @put('/categoriaevento/{id}')
+  @put('/api/categoriaevento/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -172,7 +172,7 @@ export class CategoriaEventoController {
     await this.categoriaEventoRepository.replaceById(id, categoriaEvento);
   }
 
-  @del('/categoriaevento/{id}')
+  @del('/api/categoriaevento/{id}')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
