@@ -12,3 +12,4 @@ export * from './service.controller';
 export * from './state.controller';
 export * from './user.controller';
 
+export * from './vineyard.controller';

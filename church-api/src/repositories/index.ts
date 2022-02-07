@@ -11,3 +11,4 @@ export * from './user-profile-model.repository';
 
 
 export * from './schedule.repository';
+export * from './vineyard.repository';

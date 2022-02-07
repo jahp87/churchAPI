@@ -15,3 +15,4 @@ export * from './prayer.model';
 export * from './banner.model';
 export * from './service.model';
 export * from './schedule.model';
+export * from './vineyard.model';
