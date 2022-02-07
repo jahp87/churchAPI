@@ -23,7 +23,7 @@ export class RegionController {
     public regionRepository: RegionRepository,
   ) { }
 
-  @post('/regions')
+  @post('/api/regions')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -49,7 +49,7 @@ export class RegionController {
     return this.regionRepository.create(region);
   }
 
-  @get('/regions/count')
+  @get('/api/regions/count')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
