@@ -66,11 +66,6 @@ export class EventoController {
   }
 
   @get('/api/eventos')
-  @authenticate('jwt')
-  @authorize({
-    allowedRoles: ['admin'],
-    voters: [basicAuthorization],
-  })
   @response(200, {
     description: 'Array of Evento model instances',
     content: {
@@ -113,11 +108,6 @@ export class EventoController {
   }
 
   @get('/api/eventos/{id}')
-  @authenticate('jwt')
-  @authorize({
-    allowedRoles: ['admin'],
-    voters: [basicAuthorization],
-  })
   @response(200, {
     description: 'Evento model instance',
     content: {
