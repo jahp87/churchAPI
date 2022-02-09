@@ -1,26 +1,26 @@
 import {Getter, inject} from '@loopback/core';
 import {BelongsToAccessor, DefaultCrudRepository, repository} from '@loopback/repository';
 import {MongodbDatasourceDataSource} from '../datasources';
-import {ChurchModel, Prayer, PrayerRelations} from '../models';
+import {ChurchModel, Preach, PreachRelations} from '../models';
 import {ChurchModelRepository} from './church-model.repository';
 
-export class PrayerRepository extends DefaultCrudRepository<
-  Prayer,
-  typeof Prayer.prototype.id,
-  PrayerRelations
+export class PreachRepository extends DefaultCrudRepository<
+  Preach,
+  typeof Preach.prototype.id,
+  PreachRelations
 > {
 
-  public readonly church: BelongsToAccessor<ChurchModel, typeof Prayer.prototype.id>;
+  public readonly church: BelongsToAccessor<ChurchModel, typeof Preach.prototype.id>;
 
   constructor(
     @inject('datasources.mongodbDatasource') dataSource: MongodbDatasourceDataSource, @repository.getter('ChurchModelRepository') protected churchModelRepositoryGetter: Getter<ChurchModelRepository>,
   ) {
-    super(Prayer, dataSource);
+    super(Preach, dataSource);
     this.church = this.createBelongsToAccessorFor('church', churchModelRepositoryGetter,);
     this.registerInclusionResolver('church', this.church.inclusionResolver);
   }
 
-  async getPrayerByChurch(churchId: string) {
+  async getPreachByChurch(churchId: string) {
     return this.find({
       where: {
         churchId: churchId

@@ -2,7 +2,7 @@ import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {ChurchModel} from './church-model.model';
 
 @model()
-export class Prayer extends Entity {
+export class Preach extends Entity {
   @property({
     type: 'string',
     id: true,
@@ -39,13 +39,13 @@ export class Prayer extends Entity {
   @belongsTo(() => ChurchModel)
   churchId: string;
 
-  constructor(data?: Partial<Prayer>) {
+  constructor(data?: Partial<Preach>) {
     super(data);
   }
 }
 
-export interface PrayerRelations {
+export interface PreachRelations {
   // describe navigational properties here
 }
 
-export type PrayerWithRelations = Prayer & PrayerRelations;
+export type PreachWithRelations = Preach & PreachRelations;

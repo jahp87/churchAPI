@@ -14,19 +14,19 @@ import {
   response
 } from '@loopback/rest';
 import {basicAuthorization} from '../middlewares/auth.midd';
-import {Prayer} from '../models';
-import {PrayerRepository} from '../repositories';
+import {Preach} from '../models';
+import {PreachRepository} from '../repositories';
 
-export class PrayerController {
+export class PreachController {
   constructor(
-    @repository(PrayerRepository)
-    public prayerRepository: PrayerRepository,
+    @repository(PreachRepository)
+    public preachRepository: PreachRepository,
   ) { }
 
-  @post('/prayers')
+  @post('/preachs')
   @response(200, {
-    description: 'Prayer model instance',
-    content: {'application/json': {schema: getModelSchemaRef(Prayer)}},
+    description: 'Preach model instance',
+    content: {'application/json': {schema: getModelSchemaRef(Preach)}},
   })
   @authenticate('jwt')
   @authorize({
@@ -37,21 +37,21 @@ export class PrayerController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Prayer, {
-            title: 'NewPrayer',
+          schema: getModelSchemaRef(Preach, {
+            title: 'NewPreach',
             exclude: ['id'],
           }),
         },
       },
     })
-    prayer: Omit<Prayer, 'id'>,
-  ): Promise<Prayer> {
-    return this.prayerRepository.create(prayer);
+    preach: Omit<Preach, 'id'>,
+  ): Promise<Preach> {
+    return this.preachRepository.create(preach);
   }
 
-  @get('/prayers/count')
+  @get('/preachs/count')
   @response(200, {
-    description: 'Prayer model count',
+    description: 'Preach model count',
     content: {'application/json': {schema: CountSchema}},
   })
   @authenticate('jwt')
@@ -60,19 +60,19 @@ export class PrayerController {
     voters: [basicAuthorization],
   })
   async count(
-    @param.where(Prayer) where?: Where<Prayer>,
+    @param.where(Preach) where?: Where<Preach>,
   ): Promise<Count> {
-    return this.prayerRepository.count(where);
+    return this.preachRepository.count(where);
   }
 
-  @get('/prayers')
+  @get('/preach')
   @response(200, {
-    description: 'Array of Prayer model instances',
+    description: 'Array of Preach model instances',
     content: {
       'application/json': {
         schema: {
           type: 'array',
-          items: getModelSchemaRef(Prayer, {includeRelations: true}),
+          items: getModelSchemaRef(Preach, {includeRelations: true}),
         },
       },
     },
@@ -83,14 +83,14 @@ export class PrayerController {
     voters: [basicAuthorization],
   })
   async find(
-    @param.filter(Prayer) filter?: Filter<Prayer>,
-  ): Promise<Prayer[]> {
-    return this.prayerRepository.find(filter);
+    @param.filter(Preach) filter?: Filter<Preach>,
+  ): Promise<Preach[]> {
+    return this.preachRepository.find(filter);
   }
 
-  @patch('/prayers')
+  @patch('/preachs')
   @response(200, {
-    description: 'Prayer PATCH success count',
+    description: 'Preach PATCH success count',
     content: {'application/json': {schema: CountSchema}},
   })
   @authenticate('jwt')
@@ -102,22 +102,22 @@ export class PrayerController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Prayer, {partial: true}),
+          schema: getModelSchemaRef(Preach, {partial: true}),
         },
       },
     })
-    prayer: Prayer,
-    @param.where(Prayer) where?: Where<Prayer>,
+    prayer: Preach,
+    @param.where(Preach) where?: Where<Preach>,
   ): Promise<Count> {
-    return this.prayerRepository.updateAll(prayer, where);
+    return this.preachRepository.updateAll(prayer, where);
   }
 
-  @get('/prayers/{id}')
+  @get('/preachs/{id}')
   @response(200, {
-    description: 'Prayer model instance',
+    description: 'Preach model instance',
     content: {
       'application/json': {
-        schema: getModelSchemaRef(Prayer, {includeRelations: true}),
+        schema: getModelSchemaRef(Preach, {includeRelations: true}),
       },
     },
   })
@@ -128,14 +128,14 @@ export class PrayerController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(Prayer, {exclude: 'where'}) filter?: FilterExcludingWhere<Prayer>
-  ): Promise<Prayer> {
-    return this.prayerRepository.findById(id, filter);
+    @param.filter(Preach, {exclude: 'where'}) filter?: FilterExcludingWhere<Preach>
+  ): Promise<Preach> {
+    return this.preachRepository.findById(id, filter);
   }
 
-  @patch('/prayers/{id}')
+  @patch('/preach/{id}')
   @response(204, {
-    description: 'Prayer PATCH success',
+    description: 'Preach PATCH success',
   })
   @authenticate('jwt')
   @authorize({
@@ -147,16 +147,16 @@ export class PrayerController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Prayer, {partial: true}),
+          schema: getModelSchemaRef(Preach, {partial: true}),
         },
       },
     })
-    prayer: Prayer,
+    preach: Preach,
   ): Promise<void> {
-    await this.prayerRepository.updateById(id, prayer);
+    await this.preachRepository.updateById(id, preach);
   }
 
-  @put('/prayers/{id}')
+  @put('/preach/{id}')
   @response(204, {
     description: 'Prayer PUT success',
   })
@@ -167,14 +167,14 @@ export class PrayerController {
   })
   async replaceById(
     @param.path.string('id') id: string,
-    @requestBody() prayer: Prayer,
+    @requestBody() prayer: Preach,
   ): Promise<void> {
-    await this.prayerRepository.replaceById(id, prayer);
+    await this.preachRepository.replaceById(id, prayer);
   }
 
-  @del('/prayers/{id}')
+  @del('/preach/{id}')
   @response(204, {
-    description: 'Prayer DELETE success',
+    description: 'Preach DELETE success',
   })
   @authenticate('jwt')
   @authorize({
@@ -182,18 +182,18 @@ export class PrayerController {
     voters: [basicAuthorization],
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.prayerRepository.deleteById(id);
+    await this.preachRepository.deleteById(id);
   }
 
-  @get('/prayers/getprayerbychurch')
+  @get('/preach/getpreachbychurch')
   @response(200, {
-    description: 'Array of prayer model instances',
+    description: 'Array of preach model instances',
     parameters: [{churchId: 'churchId', schema: {type: 'string'}, in: 'query'}],
     content: {
       'application/json': {
         schema: {
           type: 'array',
-          items: getModelSchemaRef(Prayer, {includeRelations: true}),
+          items: getModelSchemaRef(Preach, {includeRelations: true}),
         },
       },
     },
@@ -203,9 +203,9 @@ export class PrayerController {
     allowedRoles: ['admin', 'user'],
     voters: [basicAuthorization],
   })
-  async getPrayerByChurch(
+  async getPreachByChurch(
     @param.query.string('churchId') churchId: string,
-  ): Promise<Prayer[]> {
-    return this.prayerRepository.getPrayerByChurch(churchId);
+  ): Promise<Preach[]> {
+    return this.preachRepository.getPreachByChurch(churchId);
   }
 }
