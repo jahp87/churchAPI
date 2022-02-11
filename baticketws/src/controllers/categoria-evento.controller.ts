@@ -66,11 +66,6 @@ export class CategoriaEventoController {
   }
 
   @get('/api/categoriaevento')
-  @authenticate('jwt')
-  @authorize({
-    allowedRoles: ['admin'],
-    voters: [basicAuthorization],
-  })
   @response(200, {
     description: 'Array of CategoriaEvento model instances',
     content: {
