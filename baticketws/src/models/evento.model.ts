@@ -1,10 +1,10 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {CategoriaEvento} from './categoria-evento.model';
+import {Ciudad} from './ciudad.model';
+import {Comuna} from './comuna.model';
 import {Empresa} from './empresa.model';
 import {Pais} from './pais.model';
 import {Region} from './region.model';
-import {Comuna} from './comuna.model';
-import {Ciudad} from './ciudad.model';
 
 @model()
 export class Evento extends Entity {
@@ -19,7 +19,7 @@ export class Evento extends Entity {
     type: 'string',
     required: true,
   })
-  nombre: string;
+  titulo: string;
 
   @property({
     type: 'date',
@@ -37,6 +37,36 @@ export class Evento extends Entity {
     required: true,
   })
   imagen: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  descripcion: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  imgPortada: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  imgSecundario: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  terminosEvento: string;
+
+  @property({
+    type: 'boolean',
+    required: true,
+  })
+  activo: boolean;
 
   @belongsTo(() => CategoriaEvento)
   categoriaEventoId: string;
