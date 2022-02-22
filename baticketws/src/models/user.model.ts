@@ -12,6 +12,14 @@ import {UserCredentials} from './user-credentials.model';
           unique: true,
         },
       },
+      uniqueRUT: {
+        keys: {
+          rut: 1,
+        },
+        options: {
+          unique: true,
+        },
+      },
     },
   },
 })
@@ -26,9 +34,15 @@ export class User extends Entity {
 
   @property({
     type: 'string',
-    required: true,
+    nullable: false,
   })
   email: string;
+
+  @property({
+    type: 'string',
+    nullable: false,
+  })
+  rut: string;
 
   @property({
     type: 'string',

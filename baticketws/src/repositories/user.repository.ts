@@ -10,6 +10,12 @@ export type Credentials = {
   role?: string
 };
 
+export type CredentialsNacional = {
+  rut: string;
+  password: string;
+  role?: string
+};
+
 export class UserRepository extends DefaultCrudRepository<User,
   typeof User.prototype.id,
   UserRelations> {

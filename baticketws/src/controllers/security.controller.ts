@@ -10,8 +10,8 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import {PasswordHasherBindings, TokenServiceBindings, UserServiceBindings} from '../keys';
 import {basicAuthorization} from '../middlewares/auth.midd';
 import {KeyAndPassword, ResetPasswordInit, User} from '../models';
-import {Credentials, UserRepository} from '../repositories';
-import {EmailService, PasswordHasher, validateCredentials} from '../services';
+import {Credentials, CredentialsNacional, UserCredentialsRepository, UserRepository} from '../repositories';
+import {EmailService, PasswordHasher, validateCredentials, validateCredentialsNacional} from '../services';
 
 const UserProfileSchema = {
   type: 'object',
@@ -48,6 +48,20 @@ const CredentialsSchema: SchemaObject = {
   },
 };
 
+const CredentialsNacionalSchema: SchemaObject = {
+  type: 'object',
+  required: ['rut', 'password'],
+  properties: {
+    rut: {
+      type: 'string'
+    },
+    password: {
+      type: 'string',
+      minLength: 8,
+    },
+  },
+};
+
 export const CredentialsRequestBody = {
   description: 'The input of login function',
   required: true,
@@ -56,9 +70,18 @@ export const CredentialsRequestBody = {
   },
 };
 
+export const CredentialsNacionalRequestBody = {
+  description: 'The input of login function',
+  required: true,
+  content: {
+    'application/json': {schema: CredentialsNacionalSchema},
+  },
+};
+
 export class SecurityController {
   constructor(
     @repository(UserRepository) public userRepository: UserRepository,
+    @repository(UserCredentialsRepository) public userCredentialsRepository: UserCredentialsRepository,
     @inject(PasswordHasherBindings.PASSWORD_HASHER)
     public passwordHasher: PasswordHasher,
     @inject(TokenServiceBindings.TOKEN_SERVICE)
@@ -71,7 +94,7 @@ export class SecurityController {
   ) {
   }
 
-  @post('/api/security/sign-up', {
+  @post('/api/security/sign-up/internacional', {
     responses: {
       '200': {
         description: 'User',
@@ -85,7 +108,7 @@ export class SecurityController {
       },
     },
   })
-  async create(
+  async createinternacional(
     @requestBody(CredentialsRequestBody) newUserRequest: Credentials,
   ): Promise<User> {
     newUserRequest.role = 'user';
@@ -176,6 +199,64 @@ export class SecurityController {
     }
   }
 
+  @post('/api/security/sign-up/nacional', {
+    responses: {
+      '200': {
+        description: 'User',
+        content: {
+          'application/json': {
+            schema: {
+              'x-ts-type': User,
+            },
+          },
+        },
+      },
+    },
+  })
+  async createnacional(
+    @requestBody(CredentialsNacionalRequestBody) newUserRequest: CredentialsNacional,
+  ): Promise<User> {
+    newUserRequest.role = 'user';
+
+    console.log(newUserRequest);
+
+    // ensure a valid rut value and password value
+    validateCredentialsNacional(_.pick(newUserRequest, ['rut', 'password']));
+
+    // encrypt the password
+    const password = await this.passwordHasher.hashPassword(
+      newUserRequest.password,
+    );
+
+    const isUniqueUser = await this.userRepository.findOne({where: {rut: newUserRequest.rut}});
+
+    if (isUniqueUser !== null) {
+      throw new HttpErrors.BadRequest('Rut value is already taken');
+    }
+
+
+    try {
+      // create the new user
+      const savedUser = await this.userRepository.create(
+        _.omit(newUserRequest, 'password'),
+      );
+
+      // set the password
+      await this.userRepository
+        .userCredentials(savedUser.id)
+        .create({password});
+
+      return savedUser;
+    } catch (error) {
+      // MongoError 11000 duplicate key
+      if (error.code === 11000 && error.errmsg.includes('index: uniqueRUT')) {
+        throw new HttpErrors.Conflict('Rut value is already taken');
+      } else {
+        throw error;
+      }
+    }
+  }
+
 
   @get('/api/security/{userId}', {
     responses: {
@@ -246,6 +327,63 @@ export class SecurityController {
   ): Promise<{token: string}> {
     // ensure the user exists, and the password is correct
     const user = await this.userService.verifyCredentials(credentials);
+
+    // convert a User object into a UserProfile object (reduced set of properties)
+    const userProfile = this.userService.convertToUserProfile(user);
+
+    // create a JSON Web Token based on the user profile
+    const token = await this.jwtService.generateToken(userProfile);
+
+    return {token};
+  }
+
+  @post('/api/security/login/nacional', {
+    responses: {
+      '200': {
+        description: 'Token',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                token: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  })
+  async loginnacional(
+    @requestBody(CredentialsNacionalRequestBody) credentials: CredentialsNacional,
+  ): Promise<{token: string}> {
+    // ensure the user exists
+    const user = await this.userRepository.findOne({where: {rut: credentials.rut}});
+
+    if (!user) {
+      throw new HttpErrors.BadRequest('Error, verify your credentials please');
+    }
+
+    const userCredentialsInstance = await this.userCredentialsRepository.findOne({where: {userId: user.id}});
+
+    if (!userCredentialsInstance) {
+
+      throw new HttpErrors.BadRequest('Error, verify your credentials please');
+    }
+
+    // validate the password
+    const isPassword = await this.passwordHasher.comparePassword(
+      credentials.password,
+      userCredentialsInstance.password
+    );
+
+    if (!isPassword) {
+      throw new HttpErrors.BadRequest('Error, verify your credentials please');
+    }
+
+    //ensure the password is correct
 
     // convert a User object into a UserProfile object (reduced set of properties)
     const userProfile = this.userService.convertToUserProfile(user);

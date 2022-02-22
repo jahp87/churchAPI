@@ -17,3 +17,6 @@ export * from './security.controller';
 export * from './usuario.controller';
 
 export * from './layout.controller';
+export * from './perfil-pais.controller';
+export * from './perfil-region.controller';
+export * from './perfil-comuna.controller';
