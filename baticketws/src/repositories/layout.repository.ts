@@ -1,8 +1,8 @@
 import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, BelongsToAccessor} from '@loopback/repository';
+import {BelongsToAccessor, DefaultCrudRepository, repository} from '@loopback/repository';
 import {TicketeradbDataSource} from '../datasources';
-import {Layout, LayoutRelations, Recinto} from '../models';
-import {RecintoRepository} from './recinto.repository';
+import {Layout, LayoutRelations, Recinto, Empresa} from '../models';
+import {EmpresaRepository} from './empresa.repository';
 
 export class LayoutRepository extends DefaultCrudRepository<
   Layout,
@@ -12,11 +12,16 @@ export class LayoutRepository extends DefaultCrudRepository<
 
   public readonly recinto: BelongsToAccessor<Recinto, typeof Layout.prototype.id>;
 
+  public readonly empresa: BelongsToAccessor<Empresa, typeof Layout.prototype.id>;
+
   constructor(
-    @inject('datasources.ticketeradb') dataSource: TicketeradbDataSource, @repository.getter('RecintoRepository') protected recintoRepositoryGetter: Getter<RecintoRepository>,
+    @inject('datasources.ticketeradb') dataSource: TicketeradbDataSource, @repository.getter('EmpresaRepository') protected empresaRepositoryGetter: Getter<EmpresaRepository>,
+
   ) {
     super(Layout, dataSource);
-    this.recinto = this.createBelongsToAccessorFor('recinto', recintoRepositoryGetter,);
+    this.empresa = this.createBelongsToAccessorFor('empresa', empresaRepositoryGetter,);
+    this.registerInclusionResolver('empresa', this.empresa.inclusionResolver);
+
     this.registerInclusionResolver('recinto', this.recinto.inclusionResolver);
   }
 }

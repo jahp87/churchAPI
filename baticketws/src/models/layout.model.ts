@@ -1,5 +1,5 @@
-import {belongsTo, Entity, model, property} from '@loopback/repository';
-import {Recinto} from './recinto.model';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {Empresa} from './empresa.model';
 
 @model()
 export class Layout extends Entity {
@@ -33,8 +33,8 @@ export class Layout extends Entity {
   })
   totalFilas?: number;
 
-  @belongsTo(() => Recinto)
-  recintoId: string;
+  @belongsTo(() => Empresa)
+  empresaId: string;
 
   constructor(data?: Partial<Layout>) {
     super(data);
