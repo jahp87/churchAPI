@@ -8,7 +8,7 @@ export class Layout extends Entity {
     id: true,
     generated: true,
   })
-  id?: string;
+  id: string;
 
   @property({
     type: 'string',
@@ -31,7 +31,7 @@ export class Layout extends Entity {
   @property({
     type: 'number',
   })
-  totalFilas?: number;
+  totalFilas: number;
 
   @belongsTo(() => Empresa)
   empresaId: string;

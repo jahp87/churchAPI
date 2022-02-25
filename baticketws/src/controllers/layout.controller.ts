@@ -23,7 +23,7 @@ export class LayoutController {
     public layoutRepository: LayoutRepository,
   ) { }
 
-  @post('/layouts')
+  @post('/api/layouts')
   @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
@@ -49,7 +49,8 @@ export class LayoutController {
     return this.layoutRepository.create(layout);
   }
 
-  @get('/layouts/count')
+  @get('/api/layouts/count')
+  @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
     voters: [basicAuthorization],
@@ -64,7 +65,8 @@ export class LayoutController {
     return this.layoutRepository.count(where);
   }
 
-  @get('/layouts')
+  @get('/api/layouts')
+  @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
     voters: [basicAuthorization],
@@ -86,7 +88,8 @@ export class LayoutController {
     return this.layoutRepository.find(filter);
   }
 
-  @patch('/layouts')
+  @patch('/api/layouts')
+  @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
     voters: [basicAuthorization],
@@ -109,7 +112,8 @@ export class LayoutController {
     return this.layoutRepository.updateAll(layout, where);
   }
 
-  @get('/layouts/{id}')
+  @get('/api/layouts/{id}')
+  @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
     voters: [basicAuthorization],
@@ -129,7 +133,8 @@ export class LayoutController {
     return this.layoutRepository.findById(id, filter);
   }
 
-  @patch('/layouts/{id}')
+  @patch('/api/layouts/{id}')
+  @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
     voters: [basicAuthorization],
@@ -151,7 +156,8 @@ export class LayoutController {
     await this.layoutRepository.updateById(id, layout);
   }
 
-  @put('/layouts/{id}')
+  @put('/api/layouts/{id}')
+  @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
     voters: [basicAuthorization],
@@ -166,7 +172,8 @@ export class LayoutController {
     await this.layoutRepository.replaceById(id, layout);
   }
 
-  @del('/layouts/{id}')
+  @del('/api/layouts/{id}')
+  @authenticate('jwt')
   @authorize({
     allowedRoles: ['admin'],
     voters: [basicAuthorization],
