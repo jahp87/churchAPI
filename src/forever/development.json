@@ -1,0 +1,10 @@
+{
+  "uid": "app",
+  "append": true,
+  "watch": true,
+  "script": "index.js",
+  "sourceDir": "/home/chuchapi/churchAPI/src",
+  "logFile": "/home/chuchapi/logs/forever.log",
+  "outFile": "/home/chuchapi/logs/out.log",
+  "errFile": "/home/chuchapi/logs/error.log"
+}
