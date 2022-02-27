@@ -65,7 +65,7 @@ export class PreachController {
     return this.preachRepository.count(where);
   }
 
-  @get('/preach')
+  @get('/preachs')
   @response(200, {
     description: 'Array of Preach model instances',
     content: {
@@ -133,7 +133,7 @@ export class PreachController {
     return this.preachRepository.findById(id, filter);
   }
 
-  @patch('/preach/{id}')
+  @patch('/preachs/{id}')
   @response(204, {
     description: 'Preach PATCH success',
   })
@@ -156,7 +156,7 @@ export class PreachController {
     await this.preachRepository.updateById(id, preach);
   }
 
-  @put('/preach/{id}')
+  @put('/preachs/{id}')
   @response(204, {
     description: 'Prayer PUT success',
   })
@@ -172,7 +172,7 @@ export class PreachController {
     await this.preachRepository.replaceById(id, prayer);
   }
 
-  @del('/preach/{id}')
+  @del('/preachs/{id}')
   @response(204, {
     description: 'Preach DELETE success',
   })
@@ -185,7 +185,7 @@ export class PreachController {
     await this.preachRepository.deleteById(id);
   }
 
-  @get('/preach/getpreachbychurch')
+  @get('/preachs/getpreachbychurch')
   @response(200, {
     description: 'Array of preach model instances',
     parameters: [{churchId: 'churchId', schema: {type: 'string'}, in: 'query'}],
