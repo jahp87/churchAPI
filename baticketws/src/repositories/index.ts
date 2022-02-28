@@ -17,3 +17,4 @@ export * from './user.repository';
 
 
 export * from './layout.repository';
+export * from './evento-layout-relation.repository';

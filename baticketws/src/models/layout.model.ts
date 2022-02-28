@@ -1,5 +1,7 @@
-import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {Entity, model, property, belongsTo, hasMany} from '@loopback/repository';
 import {Empresa} from './empresa.model';
+import {Evento} from './evento.model';
+import {EventoLayoutRelation} from './evento-layout-relation.model';
 
 @model()
 export class Layout extends Entity {
@@ -35,6 +37,9 @@ export class Layout extends Entity {
 
   @belongsTo(() => Empresa)
   empresaId: string;
+
+  @hasMany(() => Evento, {through: {model: () => EventoLayoutRelation}})
+  eventos: Evento[];
 
   constructor(data?: Partial<Layout>) {
     super(data);

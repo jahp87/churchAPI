@@ -1,13 +1,15 @@
 import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, BelongsToAccessor} from '@loopback/repository';
+import {DefaultCrudRepository, repository, BelongsToAccessor, HasManyThroughRepositoryFactory} from '@loopback/repository';
 import {TicketeradbDataSource} from '../datasources';
-import {Evento, EventoRelations, CategoriaEvento, Empresa, Pais, Region, Comuna, Ciudad} from '../models';
+import {Evento, EventoRelations, CategoriaEvento, Empresa, Pais, Region, Comuna, Ciudad, Layout, EventoLayoutRelation} from '../models';
 import {CategoriaEventoRepository} from './categoria-evento.repository';
 import {EmpresaRepository} from './empresa.repository';
 import {PaisRepository} from './pais.repository';
 import {RegionRepository} from './region.repository';
 import {ComunaRepository} from './comuna.repository';
 import {CiudadRepository} from './ciudad.repository';
+import {EventoLayoutRelationRepository} from './evento-layout-relation.repository';
+import {LayoutRepository} from './layout.repository';
 
 export class EventoRepository extends DefaultCrudRepository<
   Evento,
@@ -27,10 +29,17 @@ export class EventoRepository extends DefaultCrudRepository<
 
   public readonly ciudad: BelongsToAccessor<Ciudad, typeof Evento.prototype.id>;
 
+  public readonly layouts: HasManyThroughRepositoryFactory<Layout, typeof Layout.prototype.id,
+          EventoLayoutRelation,
+          typeof Evento.prototype.id
+        >;
+
   constructor(
-    @inject('datasources.ticketeradb') dataSource: TicketeradbDataSource, @repository.getter('CategoriaEventoRepository') protected categoriaEventoRepositoryGetter: Getter<CategoriaEventoRepository>, @repository.getter('EmpresaRepository') protected empresaRepositoryGetter: Getter<EmpresaRepository>, @repository.getter('PaisRepository') protected paisRepositoryGetter: Getter<PaisRepository>, @repository.getter('RegionRepository') protected regionRepositoryGetter: Getter<RegionRepository>, @repository.getter('ComunaRepository') protected comunaRepositoryGetter: Getter<ComunaRepository>, @repository.getter('CiudadRepository') protected ciudadRepositoryGetter: Getter<CiudadRepository>,
+    @inject('datasources.ticketeradb') dataSource: TicketeradbDataSource, @repository.getter('CategoriaEventoRepository') protected categoriaEventoRepositoryGetter: Getter<CategoriaEventoRepository>, @repository.getter('EmpresaRepository') protected empresaRepositoryGetter: Getter<EmpresaRepository>, @repository.getter('PaisRepository') protected paisRepositoryGetter: Getter<PaisRepository>, @repository.getter('RegionRepository') protected regionRepositoryGetter: Getter<RegionRepository>, @repository.getter('ComunaRepository') protected comunaRepositoryGetter: Getter<ComunaRepository>, @repository.getter('CiudadRepository') protected ciudadRepositoryGetter: Getter<CiudadRepository>, @repository.getter('EventoLayoutRelationRepository') protected eventoLayoutRelationRepositoryGetter: Getter<EventoLayoutRelationRepository>, @repository.getter('LayoutRepository') protected layoutRepositoryGetter: Getter<LayoutRepository>,
   ) {
     super(Evento, dataSource);
+    this.layouts = this.createHasManyThroughRepositoryFactoryFor('layouts', layoutRepositoryGetter, eventoLayoutRelationRepositoryGetter,);
+    this.registerInclusionResolver('layouts', this.layouts.inclusionResolver);
     this.ciudad = this.createBelongsToAccessorFor('ciudad', ciudadRepositoryGetter,);
     this.registerInclusionResolver('ciudad', this.ciudad.inclusionResolver);
     this.comuna = this.createBelongsToAccessorFor('comuna', comunaRepositoryGetter,);

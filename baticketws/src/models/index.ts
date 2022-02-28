@@ -10,6 +10,7 @@ export * from './empresa.model';
 export * from './envelope.model';
 export * from './evento.model';
 export * from './key-and-password.model';
+export * from './layout.model';
 export * from './node-mail.model';
 export * from './pais.model';
 export * from './perfil.model';
@@ -22,4 +23,5 @@ export * from './user.model';
 
 
 
-export * from './layout.model';
+
+export * from './evento-layout-relation.model';

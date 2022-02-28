@@ -1,10 +1,12 @@
-import {belongsTo, Entity, model, property} from '@loopback/repository';
+import {belongsTo, Entity, model, property, hasMany} from '@loopback/repository';
 import {CategoriaEvento} from './categoria-evento.model';
 import {Ciudad} from './ciudad.model';
 import {Comuna} from './comuna.model';
 import {Empresa} from './empresa.model';
 import {Pais} from './pais.model';
 import {Region} from './region.model';
+import {Layout} from './layout.model';
+import {EventoLayoutRelation} from './evento-layout-relation.model';
 
 @model()
 export class Evento extends Entity {
@@ -85,6 +87,9 @@ export class Evento extends Entity {
 
   @belongsTo(() => Ciudad)
   ciudadId: string;
+
+  @hasMany(() => Layout, {through: {model: () => EventoLayoutRelation}})
+  layouts: Layout[];
 
   constructor(data?: Partial<Evento>) {
     super(data);
