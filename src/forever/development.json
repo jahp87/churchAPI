@@ -2,7 +2,7 @@
   "uid": "app",
   "append": true,
   "watch": true,
-  "script": "forever/init",
+  "script": "/home/chuchapi/churchAPI/src/forever/init",
   "sourceDir": "/home/chuchapi/churchAPI/src",
   "logFile": "/home/chuchapi/logs/forever.log",
   "outFile": "/home/chuchapi/logs/out.log",
