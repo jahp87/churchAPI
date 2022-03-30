@@ -5,16 +5,9 @@ FROM node:16-slim
 USER node
 
 # Create app directory (with user `node`)
+RUN mkdir -p /home/node/app
 
-RUN chmod 777 /usr/src/ -R
-
-RUN mkdir -p /usr/src/app
-
-RUN chmod 755 /usr/src/ -R
-
-
-
-WORKDIR /usr/src/app
+WORKDIR /home/node/app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
