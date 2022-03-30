@@ -5,7 +5,14 @@ FROM node:16-slim
 USER node
 
 # Create app directory (with user `node`)
+
+RUN chmod 777 /usr/src/ -R
+
 RUN mkdir -p /usr/src/app
+
+RUN chmod 755 /usr/src/ -R
+
+
 
 WORKDIR /usr/src/app
 
