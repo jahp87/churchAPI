@@ -21,7 +21,7 @@ RUN npm install
 COPY . .
 
 # set permissions
-RUN chmod 777 /usr/src/app/ -R
+RUN chmod 755 /usr/src/app/ -R
 
 # expose port to docker network
 EXPOSE 3000
