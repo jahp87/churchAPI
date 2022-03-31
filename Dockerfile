@@ -14,7 +14,7 @@ RUN npm i -g @loopback/cli
 WORKDIR /usr/src/app
 
 # install app dependencies. A wildcard is used to ensure both package.json AND package-lock.json are copied where available (npm@5+)
-COPY package*.json ./
+COPY /usr/src/app/package*.json /user/src/app
 RUN npm install
 
 # bundle app source
