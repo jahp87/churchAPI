@@ -17,3 +17,4 @@ export * from './user-profile-model.model';
 export * from './vineyard.model';
 
 
+export * from './ad.model';

@@ -10,3 +10,4 @@ export * from './user-model.repository';
 export * from './user-profile-model.repository';
 export * from './vineyard.repository';
 
+export * from './ad.repository';

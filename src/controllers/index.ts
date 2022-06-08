@@ -1,3 +1,4 @@
+export * from './ad.controller';
 export * from './banner.controller';
 export * from './church.controller';
 export * from './city.controller';
@@ -12,4 +13,5 @@ export * from './service.controller';
 export * from './state.controller';
 export * from './user.controller';
 export * from './vineyard.controller';
+
 

@@ -1,5 +1,6 @@
 import {AuthenticationComponent, registerAuthenticationStrategy} from '@loopback/authentication';
 import {
+  SECURITY_SCHEME_SPEC,
   UserServiceBindings
 } from '@loopback/authentication-jwt';
 import {BootMixin} from '@loopback/boot';
@@ -49,6 +50,8 @@ export class ChurchApiApplication extends BootMixin(
         nested: true,
       },
     };
+    // Add security spec
+    this.addSecuritySpec();
     this.setUpBindings();
 
     this.component(AuthenticationComponent);
@@ -85,7 +88,7 @@ export class ChurchApiApplication extends BootMixin(
    * Configure `multer` options for file upload
    */
   protected configureFileUpload(destination?: string) {
-    console.log(path.join(__dirname, './uploads'));
+    // Upload files to `dist/.sandbox` by default
     destination = destination ?? path.join(__dirname, './uploads');
     this.bind(STORAGE_DIRECTORY).to(destination);
     const multerOptions: multer.Options = {
@@ -99,5 +102,24 @@ export class ChurchApiApplication extends BootMixin(
     };
     // Configure the file upload service with multer options
     this.configure(FILE_UPLOAD_SERVICE).to(multerOptions);
+  }
+
+  private addSecuritySpec(): void {
+    this.api({
+      openapi: '3.0.0',
+      info: {
+        title: 'church ws application',
+        version: '1.0.0',
+      },
+      paths: {},
+      components: {securitySchemes: SECURITY_SCHEME_SPEC},
+      security: [
+        {
+          // secure all endpoints with 'jwt'
+          jwt: [],
+        },
+      ],
+      servers: [{url: '/'}],
+    });
   }
 }
