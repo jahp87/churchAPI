@@ -25,7 +25,7 @@ export class Ad extends Entity {
     type: 'date',
     required: true,
   })
-  fecha: string;
+  date: string;
 
   @property({
     type: 'string',
