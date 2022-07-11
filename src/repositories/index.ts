@@ -11,3 +11,5 @@ export * from './user-profile-model.repository';
 export * from './vineyard.repository';
 
 export * from './ad.repository';
+export * from './type-prayer.repository';
+export * from './prayer.repository';

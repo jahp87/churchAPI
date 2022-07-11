@@ -14,4 +14,5 @@ export * from './state.controller';
 export * from './user.controller';
 export * from './vineyard.controller';
 
-
+export * from './type-prayer.controller';
+export * from './prayer.controller';
