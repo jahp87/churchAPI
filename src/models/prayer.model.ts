@@ -14,7 +14,7 @@ export class Prayer extends Entity {
     type: 'string',
     required: true,
   })
-  name: string;
+  firstname: string;
 
   @property({
     type: 'string',
