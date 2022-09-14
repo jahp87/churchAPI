@@ -20,3 +20,4 @@ export * from './vineyard.model';
 export * from './ad.model';
 export * from './type-prayer.model';
 export * from './prayer.model';
+export * from './contact.model';
